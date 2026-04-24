@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispute Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .agent-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .agent-badge {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .arrow {
+            margin: 0 10px;
+            font-size: 20px;
+            color: #6c757d;
+        }
+        .phase-badge {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+        .audit-table {
+            font-size: 14px;
+        }
+        .compliance-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0d6efd;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">🏦 Dispute Resolution Result</h1>
+                
+                <!-- Decision Banner -->
+                <div th:if="${case.status.toString() == 'RESOLVED'}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <h4 class="alert-heading">✅ RESOLVED</h4>
+                    <p class="mb-0" th:text="${case.explanation}"></p>
+                    <hr>
+                    <p class="mb-0"><strong>Decision:</strong> <span th:text="${case.finalDecision}"></span></p>
+                </div>
+                
+                <div th:if="${case.status.toString() == 'PENDING_HUMAN_REVIEW'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <h4 class="alert-heading">🔄 ESCALATED TO HUMAN REVIEW</h4>
+                    <p class="mb-0" th:text="${case.explanation}"></p>
+                    <hr>
+                    <p class="mb-0"><strong>Status:</strong> Awaiting human reviewer decision</p>
+                </div>
+
+                <div th:if="${case.status.toString() == 'UNDER_REVIEW'}" class="alert alert-info alert-dismissible fade show" role="alert">
+                    <h4 class="alert-heading">👤 UNDER REVIEW</h4>
+                    <p class="mb-0" th:text="${case.explanation}"></p>
+                    <hr>
+                    <p class="mb-0"><strong>Decision:</strong> <span th:text="${case.finalDecision}"></span></p>
+                </div>
+
+                <!-- Case Details -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Case Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Case ID:</strong> <span th:text="${case.caseId}"></span></p>
+                                <p><strong>Dispute Type:</strong> <span th:text="${case.request.disputeType}"></span></p>
+                                <p><strong>Transaction ID:</strong> <span th:text="${case.request.transactionId}"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Amount:</strong> ₹<span th:text="${case.request.amount}"></span></p>
+                                <p><strong>Created:</strong> <span th:text="${#temporals.format(case.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                                <p th:if="${case.resolvedAt != null}"><strong>Resolved:</strong> <span th:text="${#temporals.format(case.resolvedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                            </div>
+                        </div>
+                        <p><strong>Description:</strong> <span th:text="${case.request.description}"></span></p>
+                        <p><strong>Customer Note:</strong> <span th:text="${case.request.customerNote}"></span></p>
+                    </div>
+                </div>
+
+                <!-- Agent Interaction Flow -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5>🤖 Agent Interaction Flow</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="agent-flow">
+                            <span class="badge bg-primary agent-badge">OrchestratorAgent</span>
+                            <span class="arrow">→</span>
+                            <span class="badge bg-success agent-badge">TransactionDataAgent</span>
+                            <span class="arrow">→</span>
+                            <span class="badge bg-warning agent-badge" th:if="${case.request.disputeType == 'FRAUD'}">FraudDetectionAgent</span>
+                            <span class="badge bg-warning agent-badge" th:if="${case.request.disputeType == 'MERCHANT'}">MerchantContextAgent</span>
+                            <span class="arrow">→</span>
+                            <span class="badge bg-primary agent-badge">OrchestratorAgent</span>
+                            <span class="arrow">→</span>
+                            <span class="badge bg-secondary agent-badge">ComplianceAgent</span>
+                            <span class="arrow">→</span>
+                            <span class="badge bg-dark agent-badge">[Decision]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audit Trail -->
+                <div class="card mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h5>📋 Audit Trail - ReAct Pattern Steps</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-hover audit-table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th style="width: 5%">#</th>
+                                    <th style="width: 15%">Agent</th>
+                                    <th style="width: 10%">Phase</th>
+                                    <th style="width: 50%">Detail</th>
+                                    <th style="width: 20%">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="step : ${case.auditTrail.steps}">
+                                    <td th:text="${step.stepNumber}"></td>
+                                    <td>
+                                        <span class="badge bg-primary" th:text="${step.agentName}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info phase-badge" th:if="${step.phase == 'THINK'}">💭 THINK</span>
+                                        <span class="badge bg-warning phase-badge" th:if="${step.phase == 'ACT'}">⚡ ACT</span>
+                                        <span class="badge bg-success phase-badge" th:if="${step.phase == 'OBSERVE'}">👁 OBSERVE</span>
+                                    </td>
+                                    <td>
+                                        <div th:if="${step.thought != null}">
+                                            <strong>Thought:</strong>
+                                            <p class="mb-1" th:text="${step.thought}"></p>
+                                        </div>
+                                        <div th:if="${step.action != null}">
+                                            <strong>Action:</strong>
+                                            <p class="mb-1 text-primary" th:text="${step.action}"></p>
+                                        </div>
+                                        <div th:if="${step.observation != null}">
+                                            <strong>Observation:</strong>
+                                            <p class="mb-0 text-muted" style="font-size: 12px;" th:text="${step.observation}"></p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <small th:text="${#temporals.format(step.timestamp, 'HH:mm:ss')}"></small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Compliance Note -->
+                <div class="compliance-box">
+                    <h6><strong>🔒 Compliance Validation</strong></h6>
+                    <p class="mb-0">The final compliance check has been performed by the ComplianceAgent. Review the audit trail above for the compliance officer's assessment.</p>
+                </div>
+
+                <!-- Actions -->
+                <div class="text-center mt-4 mb-4">
+                    <a href="/" class="btn btn-primary">Submit Another Dispute</a>
+                    <a href="/review" class="btn btn-outline-secondary">View Review Queue</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
