@@ -1,204 +1,319 @@
-# Dispute Management System - AI-Powered Demo
+# DisputeResolver - AI-Powered Dispute Management System
 
-A Spring Boot demonstration application showcasing an AI-powered dispute resolution system using the **ReAct (Reasoning and Acting)** pattern with multiple agents.
+A Spring Boot application demonstrating an **agentic AI system** for automated dispute resolution using the **ReAct pattern** (Reason-Act-Observe). This system showcases multi-agent orchestration, explainable AI decisions, and human-in-the-loop workflows for banking dispute management.
 
 ## 🎯 Overview
 
-This application demonstrates:
-- **Multi-Agent AI System**: Orchestrator, Fraud Detection, Transaction Data, Merchant Context, and Compliance agents
-- **ReAct Pattern**: Think → Act → Observe loops for transparent AI reasoning
-- **Auto-Decision**: High-confidence fraud cases resolved automatically
-- **Human-in-the-Loop**: Ambiguous cases escalated to human reviewers
-- **Complete Audit Trail**: Every decision step is logged and visible
-- **Explainability**: Clear reasoning for every decision
+DisputeResolver is a proof-of-concept application that simulates how AI agents can work together to analyze, process, and resolve customer disputes in a banking context. The system demonstrates:
+
+- **Multi-Agent Architecture**: Specialized agents working together to solve complex problems
+- **ReAct Pattern**: Think → Act → Observe cycles for transparent decision-making
+- **Explainable AI**: Every decision includes clear reasoning and audit trails
+- **Human-in-the-Loop**: Automatic escalation for ambiguous cases requiring human judgment
+- **Dual LLM Support**: Works with both Anthropic Claude API and local Ollama models
 
 ## 🏗️ Architecture
 
+### Multi-Agent System
+
+The application uses a coordinated multi-agent architecture where each agent has a specific responsibility:
+
 ```
-DisputeOrchestratorAgent (Master)
-    ├── TransactionDataAgent (Mock data)
-    ├── FraudDetectionAgent (AI-powered)
-    ├── MerchantContextAgent (Mock data)
-    └── ComplianceAgent (AI-powered)
+┌─────────────────────────────────────────────────────────────┐
+│                  DisputeOrchestratorAgent                   │
+│              (Master Coordinator - ReAct Loop)              │
+└─────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   Fraud      │    │ Transaction  │    │  Merchant    │
+│  Detection   │    │     Data     │    │   Context    │
+│    Agent     │    │    Agent     │    │    Agent     │
+└──────────────┘    └──────────────┘    └──────────────┘
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            │
+                            ▼
+                    ┌──────────────┐
+                    │ Compliance   │
+                    │    Agent     │
+                    └──────────────┘
 ```
+
+#### Agent Responsibilities
+
+1. **DisputeOrchestratorAgent** (Master)
+   - Coordinates the entire dispute resolution workflow
+   - Implements the ReAct pattern (Think → Act → Observe)
+   - Routes disputes based on type (FRAUD vs MERCHANT)
+   - Makes final decisions or escalates to humans
+   - Maintains complete audit trail
+
+2. **FraudDetectionAgent**
+   - Analyzes transaction patterns for fraud signals
+   - Calculates fraud risk scores (0-100)
+   - Identifies anomalies (location, amount, timing)
+   - Provides recommendations for auto-approval
+
+3. **TransactionDataAgent**
+   - Fetches transaction details (mock data for demo)
+   - Provides context: amount, location, merchant, timestamp
+   - Simulates integration with payment systems
+
+4. **MerchantContextAgent**
+   - Retrieves merchant history and reputation
+   - Checks delivery status and tracking
+   - Analyzes past dispute patterns
+   - Assesses merchant risk level
+
+5. **ComplianceAgent**
+   - Validates decisions against banking policies
+   - Ensures regulatory compliance
+   - Reviews audit trail completeness
+   - Flags potential compliance issues
+
+### ReAct Pattern Implementation
+
+Each dispute follows a structured reasoning cycle:
+
+```
+THINK → ACT → OBSERVE → THINK → ACT → OBSERVE → DECISION
+```
+
+**Example Flow:**
+
+1. **THINK**: "This is a fraud dispute. I need transaction data and fraud signals."
+2. **ACT**: Call TransactionDataAgent → Get transaction details
+3. **OBSERVE**: "Transaction in unknown foreign country, no travel history"
+4. **THINK**: "High fraud risk. Need fraud analysis."
+5. **ACT**: Call FraudDetectionAgent → Get fraud score
+6. **OBSERVE**: "Fraud score: 92/100. Strong signals detected."
+7. **THINK**: "Score exceeds threshold. Safe to auto-approve."
+8. **ACT**: Call ComplianceAgent → Validate decision
+9. **OBSERVE**: "Decision compliant with policy."
+10. **DECISION**: AUTO_APPROVED
+
+## 🚀 Features
+
+### 1. Automated Dispute Resolution
+- **Fraud Detection**: Automatically identifies and approves legitimate fraud claims
+- **Pattern Recognition**: Analyzes transaction patterns, locations, and customer behavior
+- **Risk Scoring**: Calculates fraud probability scores
+- **Auto-Approval**: Resolves clear-cut cases without human intervention
+
+### 2. Human-in-the-Loop
+- **Smart Escalation**: Routes ambiguous cases to human reviewers
+- **Review Queue**: Dashboard for human reviewers to process escalated cases
+- **Decision Support**: Provides AI recommendations to assist human judgment
+- **Audit Trail**: Complete history of AI reasoning for review
+
+### 3. Explainable AI
+- **Transparent Reasoning**: Every decision includes detailed explanation
+- **Step-by-Step Audit**: Visual timeline of agent interactions
+- **Confidence Levels**: HIGH/MEDIUM/LOW confidence indicators
+- **Compliance Notes**: Regulatory compliance validation
+
+### 4. Dual LLM Support
+- **Anthropic Claude**: Production-grade API integration
+- **Ollama**: Local LLM support for development/testing
+- **Easy Switching**: Toggle between providers via configuration
 
 ## 📋 Prerequisites
 
-- **Java 17** or higher
-- **Maven 3.6+**
-- **LLM Provider** (choose one):
-  - **Anthropic API Key** (Claude Sonnet 4) - Default
-  - **Ollama** (local LLM) - Alternative option
+- **Java**: JDK 17 or higher
+- **Maven**: 3.6+ (or use included Maven wrapper)
+- **Git**: For version control
+- **LLM Access**: Either Anthropic API key OR Ollama installed locally
 
-## 🚀 Setup Instructions
+### LLM Setup Options
 
-### 1. Choose Your LLM Provider
-
-The application supports two LLM providers:
-
-#### Option A: Anthropic Claude (Default)
-
-Set your Anthropic API key as an environment variable:
-
-**macOS/Linux:**
+#### Option 1: Anthropic Claude (Recommended for Production)
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-your-api-key-here
 ```
 
-**Windows (PowerShell):**
-```powershell
-$env:ANTHROPIC_API_KEY="sk-ant-your-api-key-here"
-```
-
-**Windows (CMD):**
-```cmd
-set ANTHROPIC_API_KEY=sk-ant-your-api-key-here
-```
-
-#### Option B: Ollama (Local LLM)
-
-1. Install Ollama from https://ollama.ai
-2. Pull a model (e.g., llama2):
-   ```bash
-   ollama pull llama2
-   ```
-3. Start Ollama service (usually runs on http://localhost:11434)
-4. Update `application.properties`:
-   ```properties
-   llm.provider=ollama
-   ollama.model=llama2
-   ```
-
-### 2. Build the Application
-
+#### Option 2: Ollama (Local Development)
 ```bash
+# Install Ollama
+brew install ollama  # macOS
+# or download from https://ollama.ai
+
+# Pull a model
+ollama pull gemma2:2b
+
+# Start Ollama server
+ollama serve
+```
+
+## 🛠️ Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/pravinw22/DisputeResolver.git
+cd DisputeResolver
+```
+
+### 2. Configure LLM Provider
+
+Edit `src/main/resources/application.properties`:
+
+**For Anthropic Claude:**
+```properties
+llm.provider=anthropic
+anthropic.api.key=${ANTHROPIC_API_KEY}
+anthropic.model=claude-sonnet-4-20250514
+```
+
+**For Ollama (Local):**
+```properties
+llm.provider=ollama
+ollama.api.url=http://localhost:11434/api/generate
+ollama.model=gemma2:2b
+```
+
+### 3. Build the Project
+```bash
+# Using Maven wrapper (recommended)
 ./mvnw clean install
+
+# Or using system Maven
+mvn clean install
 ```
 
-### 3. Run the Application
-
+### 4. Run the Application
 ```bash
+# Using Maven wrapper
 ./mvnw spring-boot:run
-```
 
-Or run the JAR directly:
-```bash
+# Or using system Maven
+mvn spring-boot:run
+
+# Or run the JAR directly
 java -jar target/dispute-management-demo-1.0.0.jar
 ```
 
-### 4. Access the Application
-
+### 5. Access the Application
 Open your browser and navigate to:
 ```
 http://localhost:8080
 ```
 
-## 🎬 Demo Scenarios
+## 📖 Usage Guide
 
-### Scenario 1: Fraudulent Transaction (Auto-Decision)
+### Demo Scenarios
 
-**Setup:**
-1. Click "🚨 Scenario 1: Fraudulent Transaction" button
-2. Form auto-fills with:
-   - Type: FRAUD
-   - Amount: ₹25,000
-   - Description: Transaction in unknown foreign location
-   - Customer Note: "I did not make this transaction. I was at home in Mumbai."
+The application includes two pre-configured scenarios:
 
-**Expected Flow:**
-1. OrchestratorAgent analyzes the dispute
-2. TransactionDataAgent fetches transaction details
-3. FraudDetectionAgent detects high fraud score (92/100)
-4. System auto-approves the dispute
-5. ComplianceAgent validates the decision
+#### Scenario 1: Fraudulent Transaction (Auto-Resolution)
+**Use Case**: Customer reports unauthorized transaction in foreign country
 
-**Result:** ✅ AUTO RESOLVED
-
-### Scenario 2: Merchant Dispute (Human-in-the-Loop)
-
-**Setup:**
-1. Click "📦 Scenario 2: Merchant Dispute" button
-2. Form auto-fills with:
-   - Type: MERCHANT
-   - Amount: ₹8,000
-   - Merchant: QuickShop India
-   - Description: Item not delivered
-   - Customer Note: "Ordered 2 weeks ago. No delivery. Merchant not responding."
+**Input:**
+- Transaction: ₹25,000 debit card charge
+- Location: Unknown foreign country
+- Customer: No travel history, was at home in Mumbai
 
 **Expected Flow:**
-1. OrchestratorAgent analyzes the dispute
-2. TransactionDataAgent fetches transaction details
-3. MerchantContextAgent fetches delivery status (NOT_DELIVERED)
-4. System escalates to human review
-5. ComplianceAgent validates the escalation
+1. System fetches transaction data
+2. Fraud detection analyzes signals
+3. High fraud score (92/100) detected
+4. Auto-approves dispute
+5. Compliance validates decision
 
-**Result:** 🔄 ESCALATED TO HUMAN REVIEW
+**Result**: ✅ AUTO_RESOLVED
 
-**Human Review:**
-1. Navigate to "View Human Review Queue"
-2. Review the case details and AI recommendation
-3. Click "View Full Audit Trail" to see complete reasoning
-4. Approve or Reject with a note
+#### Scenario 2: Merchant Dispute (Human-in-Loop)
+**Use Case**: Customer claims item not delivered
 
-## 📊 Key Features Demonstrated
+**Input:**
+- Transaction: ₹8,000 e-commerce charge
+- Merchant: QuickShop India
+- Issue: Item not delivered after 2 weeks
+- Merchant: Not responding to customer
 
-### 1. ReAct Pattern Visualization
-The audit trail shows each agent's:
-- **💭 THINK**: Reasoning and analysis
-- **⚡ ACT**: Tool calls and actions taken
-- **👁 OBSERVE**: Results and observations
+**Expected Flow:**
+1. System fetches transaction and merchant data
+2. Checks delivery status: NOT_DELIVERED
+3. Reviews merchant history: 2 prior disputes
+4. Cannot auto-resolve due to ambiguity
+5. Escalates to human review queue
 
-### 2. Agent Interaction Flow
-Visual diagram showing the sequence of agents involved:
-```
-OrchestratorAgent → TransactionDataAgent → FraudDetectionAgent → ComplianceAgent → [Decision]
-```
+**Result**: 🔄 ESCALATED_TO_HUMAN
 
-### 3. Complete Audit Trail
-Every step is logged with:
-- Step number
-- Agent name
-- Phase (THINK/ACT/OBSERVE)
-- Detailed information
-- Timestamp
+### Step-by-Step Walkthrough
 
-### 4. Compliance Validation
-Every decision is validated by the ComplianceAgent to ensure:
-- Policy adherence
-- Regulatory compliance
-- Audit trail completeness
+#### 1. Submit a Dispute
+1. Go to http://localhost:8080
+2. Click "Load Scenario 1" or "Load Scenario 2"
+3. Review pre-filled form data
+4. Click "Submit Dispute"
 
-## 🛠️ API Endpoints
+#### 2. View Results
+- **Auto-Resolved Cases**: See green success banner with decision
+- **Escalated Cases**: See orange warning banner
+- **Audit Trail**: Detailed step-by-step agent interactions
+- **Agent Flow**: Visual diagram of agent participation
 
-### REST API
+#### 3. Human Review (for Escalated Cases)
+1. Click "View Review Queue" or go to http://localhost:8080/review
+2. See all escalated cases
+3. Click "View Full Audit Trail" to review AI reasoning
+4. Click "✅ Approve" or "❌ Reject"
+5. Add reviewer note explaining decision
+6. Submit decision
 
-**Submit Dispute:**
-```
+## 🔌 API Documentation
+
+### REST Endpoints
+
+#### Submit Dispute
+```http
 POST /api/disputes
 Content-Type: application/json
 
 {
+  "transactionId": "TXN-123456",
   "disputeType": "FRAUD",
-  "transactionId": "TXN-123",
-  "amount": 25000,
-  "currency": "INR",
-  "description": "...",
-  "customerNote": "..."
+  "amount": 25000.0,
+  "description": "Unauthorized transaction in foreign country",
+  "customerNote": "I did not make this transaction",
+  "merchantName": "Optional for MERCHANT disputes"
 }
 ```
 
-**Get Dispute:**
+**Response:**
+```json
+{
+  "caseId": "ABC123",
+  "status": "AUTO_RESOLVED",
+  "finalDecision": "AUTO_APPROVED",
+  "explanation": "Fraud score 92/100. Strong fraud signals detected.",
+  "auditTrail": {
+    "steps": [...]
+  },
+  "createdAt": "2026-04-24T15:30:00",
+  "resolvedAt": "2026-04-24T15:30:05"
+}
 ```
+
+#### Get Dispute Details
+```http
 GET /api/disputes/{caseId}
 ```
 
-**Get Review Queue:**
+#### List All Disputes
+```http
+GET /api/disputes
 ```
+
+#### Get Review Queue
+```http
 GET /api/review/queue
 ```
 
-**Submit Human Decision:**
-```
+#### Submit Human Decision
+```http
 POST /api/review/{caseId}/decision
 Content-Type: application/json
 
@@ -208,172 +323,231 @@ Content-Type: application/json
 }
 ```
 
-### Web UI
+### UI Routes
 
-- **Home:** `http://localhost:8080/`
-- **Result:** `http://localhost:8080/result?caseId={caseId}`
-- **Review Queue:** `http://localhost:8080/review`
+- `GET /` - Home page (dispute submission form)
+- `GET /result?caseId={id}` - View dispute result and audit trail
+- `GET /review` - Human review queue dashboard
+
+## 🗂️ Project Structure
+
+```
+DisputeResolver/
+├── src/
+│   ├── main/
+│   │   ├── java/com/demo/dispute/
+│   │   │   ├── DisputeApplication.java          # Main Spring Boot app
+│   │   │   ├── agent/                           # AI Agents
+│   │   │   │   ├── DisputeOrchestratorAgent.java
+│   │   │   │   ├── FraudDetectionAgent.java
+│   │   │   │   ├── TransactionDataAgent.java
+│   │   │   │   ├── MerchantContextAgent.java
+│   │   │   │   └── ComplianceAgent.java
+│   │   │   ├── config/                          # Configuration
+│   │   │   │   ├── AnthropicConfig.java
+│   │   │   │   └── Prompts.java
+│   │   │   ├── controller/                      # REST & UI Controllers
+│   │   │   │   ├── DisputeController.java
+│   │   │   │   ├── HumanReviewController.java
+│   │   │   │   └── UiController.java
+│   │   │   ├── model/                           # Domain Models
+│   │   │   │   ├── DisputeCase.java
+│   │   │   │   ├── DisputeRequest.java
+│   │   │   │   ├── AgentStep.java
+│   │   │   │   ├── AuditTrail.java
+│   │   │   │   ├── DisputeStatus.java
+│   │   │   │   ├── FraudSignals.java
+│   │   │   │   ├── MerchantContext.java
+│   │   │   │   └── TransactionData.java
+│   │   │   ├── service/                         # Business Logic
+│   │   │   │   ├── DisputeService.java
+│   │   │   │   ├── ClaudeApiService.java
+│   │   │   │   ├── OllamaApiService.java
+│   │   │   │   └── LlmService.java
+│   │   │   └── store/                           # Data Storage
+│   │   │       └── InMemoryDisputeStore.java
+│   │   └── resources/
+│   │       ├── application.properties           # App configuration
+│   │       ├── templates/                       # Thymeleaf templates
+│   │       │   ├── index.html
+│   │       │   ├── result.html
+│   │       │   └── review-queue.html
+│   │       ├── UC4_Dispute_Management_Implementation_Spec.md
+│   │       └── DEMO_SCENARIOS.md
+│   └── test/
+├── pom.xml                                      # Maven dependencies
+├── .gitignore
+└── README.md
+```
 
 ## 🔧 Configuration
 
-Edit `src/main/resources/application.properties`:
+### Application Properties
 
 ```properties
-# LLM Provider Configuration
-# Options: "anthropic" or "ollama"
-llm.provider=anthropic
+# LLM Provider Selection
+llm.provider=ollama                              # or "anthropic"
 
-# Anthropic API Configuration (used when llm.provider=anthropic)
-anthropic.api.key=${ANTHROPIC_API_KEY:}
+# Anthropic Configuration
+anthropic.api.key=${ANTHROPIC_API_KEY}
 anthropic.api.url=https://api.anthropic.com/v1/messages
 anthropic.model=claude-sonnet-4-20250514
 
-# Ollama Configuration (used when llm.provider=ollama)
+# Ollama Configuration
 ollama.api.url=http://localhost:11434/api/generate
-ollama.model=llama2
+ollama.model=gemma2:2b
 
-# Server
+# Server Configuration
 server.port=8080
-```
+spring.application.name=dispute-management-demo
 
-### Switching Between Providers
+# Thymeleaf Configuration
+spring.thymeleaf.cache=false
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
 
-**To use Anthropic Claude:**
-```properties
-llm.provider=anthropic
-```
-
-**To use Ollama:**
-```properties
-llm.provider=ollama
-ollama.model=llama2  # or mistral, codellama, etc.
-```
-
-## 📁 Project Structure
-
-```
-src/main/java/com/demo/dispute/
-├── DisputeApplication.java          # Main Spring Boot application
-├── config/
-│   ├── AnthropicConfig.java         # RestTemplate configuration
-│   └── Prompts.java                 # System prompts for agents
-├── model/
-│   ├── DisputeRequest.java          # Input DTO
-│   ├── DisputeCase.java             # Core domain object
-│   ├── AgentStep.java               # ReAct step
-│   ├── AuditTrail.java              # Ordered list of steps
-│   ├── DisputeStatus.java           # Status enum
-│   ├── TransactionData.java         # Transaction details
-│   ├── FraudSignals.java            # Fraud detection results
-│   └── MerchantContext.java         # Merchant/delivery data
-├── agent/
-│   ├── DisputeOrchestratorAgent.java    # Master coordinator
-│   ├── FraudDetectionAgent.java         # AI fraud detection
-│   ├── TransactionDataAgent.java        # Mock transaction data
-│   ├── MerchantContextAgent.java        # Mock merchant data
-│   └── ComplianceAgent.java             # AI compliance check
-├── service/
-│   ├── LlmService.java                  # LLM service interface
-│   ├── ClaudeApiService.java            # Anthropic API implementation
-│   ├── OllamaApiService.java            # Ollama API implementation
-│   └── DisputeService.java              # Business logic
-├── controller/
-│   ├── DisputeController.java           # REST API
-│   ├── HumanReviewController.java       # Review queue API
-│   └── UiController.java                # Web UI routes
-└── store/
-    └── InMemoryDisputeStore.java        # In-memory storage
-
-src/main/resources/
-├── application.properties
-└── templates/
-    ├── index.html                   # Dispute submission form
-    ├── result.html                  # Audit trail & decision
-    └── review-queue.html            # Human reviewer dashboard
+# Logging
+logging.level.com.demo.dispute=INFO
 ```
 
 ## 🧪 Testing
 
 ### Manual Testing
 
-1. **Test Fraud Auto-Resolution:**
-   - Submit Scenario 1
+1. **Test Fraud Detection:**
+   - Load Scenario 1
+   - Submit dispute
    - Verify AUTO_RESOLVED status
-   - Check audit trail shows fraud detection
+   - Check audit trail shows fraud analysis
 
-2. **Test Merchant Escalation:**
-   - Submit Scenario 2
+2. **Test Human Escalation:**
+   - Load Scenario 2
+   - Submit dispute
    - Verify ESCALATED_TO_HUMAN status
-   - Navigate to review queue
-   - Submit human decision
-   - Verify HUMAN_RESOLVED status
+   - Go to review queue
+   - Approve/Reject the case
 
-### Expected Behavior
+3. **Test API Endpoints:**
+```bash
+# Submit dispute
+curl -X POST http://localhost:8080/api/disputes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "transactionId": "TXN-TEST-001",
+    "disputeType": "FRAUD",
+    "amount": 25000.0,
+    "description": "Test fraud case",
+    "customerNote": "Testing"
+  }'
 
-**Scenario 1 (Fraud):**
-- Fraud score: 92/100
-- Signals: foreign_location, no_travel_history, unusual_amount
-- Decision: AUTO_APPROVED
-- Status: AUTO_RESOLVED
+# Get dispute
+curl http://localhost:8080/api/disputes/{caseId}
 
-**Scenario 2 (Merchant):**
-- Delivery status: NOT_DELIVERED
-- Merchant disputes: 2 previous
-- Decision: ESCALATED
-- Status: ESCALATED_TO_HUMAN
-
-## 🔍 Troubleshooting
-
-### API Key Not Set (Anthropic)
-**Error:** "API key not configured"
-**Solution:** Set `ANTHROPIC_API_KEY` environment variable
-
-### Ollama Connection Failed
-**Error:** "Ollama response unavailable"
-**Solution:** 
-- Ensure Ollama is installed and running
-- Check Ollama is accessible at http://localhost:11434
-- Verify the model is pulled: `ollama list`
-
-### Port Already in Use
-**Error:** "Port 8080 is already in use"
-**Solution:** Change port in `application.properties`:
-```properties
-server.port=8081
+# Get review queue
+curl http://localhost:8080/api/review/queue
 ```
 
-### LLM API Errors
-**Error:** "Agent response unavailable"
-**Solution:** 
-- **For Anthropic:** Check API key is valid, verify internet connection
-- **For Ollama:** Ensure Ollama service is running, check model is available
+## 🎨 UI Screenshots
 
-## 📝 Notes
+### Home Page
+- Dispute submission form
+- Pre-configured scenario buttons
+- Clean, intuitive interface
 
-- **Mock Data:** Transaction and merchant data are hardcoded for demo purposes
-- **In-Memory Storage:** Data is lost on application restart
-- **No Authentication:** This is a demo application without security
-- **AI Responses:** May vary based on Claude's responses
+### Result Page
+- Decision banner (green for approved, orange for escalated)
+- Agent interaction flow diagram
+- Detailed audit trail table
+- Compliance validation notes
 
-## 🎓 Learning Points
+### Review Queue
+- List of escalated cases
+- Case details and AI recommendations
+- Approve/Reject buttons
+- Reviewer note input
 
-This demo showcases:
-1. **Multi-Agent Orchestration**: How multiple AI agents work together
-2. **ReAct Pattern**: Transparent AI reasoning process
-3. **Human-in-the-Loop**: When and how to escalate to humans
-4. **Explainability**: Making AI decisions understandable
-5. **Audit Trails**: Complete logging for compliance
-6. **Spring Boot Integration**: Building AI systems with Spring
+## 🔐 Security Considerations
 
-## 📄 License
+### Current Implementation (Demo)
+- No authentication/authorization
+- In-memory storage (data lost on restart)
+- Mock data for transactions and merchants
+- No encryption for sensitive data
 
-This is a demonstration project for educational purposes.
+### Production Recommendations
+- Implement OAuth2/JWT authentication
+- Use persistent database (PostgreSQL, MySQL)
+- Encrypt sensitive data at rest and in transit
+- Add rate limiting and API throttling
+- Implement audit logging to secure storage
+- Add input validation and sanitization
+- Use HTTPS for all communications
+- Implement role-based access control (RBAC)
+
+## 🚧 Limitations & Future Enhancements
+
+### Current Limitations
+- In-memory storage (no persistence)
+- Mock data for transactions and merchants
+- No real payment gateway integration
+- No real fraud detection algorithms
+- Limited to two dispute types
+- No batch processing
+- No analytics dashboard
+
+### Planned Enhancements
+- [ ] Persistent database integration
+- [ ] Real-time fraud detection APIs
+- [ ] Advanced analytics and reporting
+- [ ] Multi-language support
+- [ ] Email notifications
+- [ ] Webhook integrations
+- [ ] Batch dispute processing
+- [ ] Machine learning model integration
+- [ ] Performance monitoring
+- [ ] A/B testing framework
 
 ## 🤝 Contributing
 
-This is a demo application. Feel free to fork and modify for your learning purposes.
+Contributions are welcome! Please follow these steps:
 
-## 📧 Support
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-For issues or questions about the implementation, refer to the specification document:
-`src/main/resources/UC4_Dispute_Management_Implementation_Spec.md`
+## 📝 License
+
+This project is a demonstration/proof-of-concept and is provided as-is for educational purposes.
+
+## 👥 Authors
+
+- **Pravin Walunj** - [pravinw22](https://github.com/pravinw22)
+
+## 🙏 Acknowledgments
+
+- Anthropic for Claude API
+- Ollama for local LLM support
+- Spring Boot team for the excellent framework
+- Thymeleaf for templating engine
+- Bootstrap for UI components
+
+## 📞 Support
+
+For questions or issues:
+- Open an issue on GitHub
+- Check the documentation in `src/main/resources/`
+- Review the implementation spec: `UC4_Dispute_Management_Implementation_Spec.md`
+
+## 🔗 Related Resources
+
+- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
+- [Anthropic Claude API](https://docs.anthropic.com/)
+- [Ollama Documentation](https://ollama.ai/docs)
+- [ReAct Pattern Paper](https://arxiv.org/abs/2210.03629)
+- [Thymeleaf Documentation](https://www.thymeleaf.org/)
+
+---
+
+**Built with ❤️ using Spring Boot, AI Agents, and the ReAct Pattern**
