@@ -93,20 +93,26 @@ THINK → ACT → OBSERVE → THINK → ACT → OBSERVE → DECISION
 7. **THINK**: "Score exceeds threshold. Safe to auto-approve."
 8. **ACT**: Call ComplianceAgent → Validate decision
 9. **OBSERVE**: "Decision compliant with policy."
-10. **FINAL DECISION**:
+10. **DECISION**: Generate final decision with all context
+11. **FINAL DECISION**:
     ```
-    Decision: AUTO_APPROVED
-    Confidence: 92/100 (HIGH)
-    
-    📋 Policies Applied:
-    - POLICY-4.2.1: Auto-approve if fraud score ≥ 80/100
-    
-    📊 Similar Cases:
-    - CASE-2025-001234: ₹23,000 foreign transaction → AUTO_APPROVED
-    - CASE-2025-000987: ₹27,500 Thailand transaction → AUTO_APPROVED
-    
-    🔍 Fraud Pattern Matched:
-    - FP-2025-042: Foreign Transaction Fraud (94.2% accuracy)
+    ┌─────────────────────────────────────────────────────────────┐
+    │                    FINAL DECISION                           │
+    ├─────────────────────────────────────────────────────────────┤
+    │  Decision: AUTO_APPROVED                                    │
+    │  Confidence Score: 92/100 (HIGH)                            │
+    │                                                             │
+    │  📋 Policies Applied:                                       │
+    │  • POLICY-4.2.1: Auto-approve if fraud score ≥ 80/100      │
+    │                                                             │
+    │  📊 Similar Past Cases:                                     │
+    │  • CASE-2025-001234: ₹23,000 foreign → AUTO_APPROVED       │
+    │  • CASE-2025-000987: ₹27,500 Thailand → AUTO_APPROVED      │
+    │  • CASE-2025-005432: ₹22,000 Singapore → AUTO_APPROVED     │
+    │                                                             │
+    │  🔍 Fraud Pattern Matched:                                  │
+    │  • FP-2025-042: Foreign Transaction Fraud (94.2% accuracy) │
+    └─────────────────────────────────────────────────────────────┘
     ```
 
 ## 🚀 Features
