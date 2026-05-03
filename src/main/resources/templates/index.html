@@ -34,6 +34,9 @@
                     <button class="btn btn-warning scenario-btn" onclick="loadScenario2()">
                         📦 Scenario 2: Merchant Dispute
                     </button>
+                    <button class="btn btn-success scenario-btn" onclick="loadScenario3()">
+                        ✅ Scenario 3: Auto-Resolve Fraud (High Confidence)
+                    </button>
                 </div>
             </div>
 
@@ -115,6 +118,16 @@
             document.getElementById("merchantName").value = "QuickShop India";
             document.getElementById("description").value = "₹8,000 e-commerce charge — Item not delivered";
             document.getElementById("customerNote").value = "Ordered 2 weeks ago. No delivery. Merchant not responding.";
+        }
+
+        function loadScenario3() {
+            document.getElementById("disputeType").value = "FRAUD";
+            document.getElementById("transactionId").value = "TXN-2026-FR-" + Date.now();
+            document.getElementById("amount").value = "25000";
+            document.getElementById("currency").value = "INR";
+            document.getElementById("merchantName").value = "Foreign Merchant Malaysia";
+            document.getElementById("description").value = "Unauthorized transaction in foreign country - Malaysia. Multiple fraud indicators detected.";
+            document.getElementById("customerNote").value = "I did not make this transaction. I was at home in Mumbai. My card was stolen last week. This is clearly fraud with foreign location and unusual merchant.";
         }
 
         document.getElementById("disputeForm").addEventListener("submit", async function(e) {
