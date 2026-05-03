@@ -117,19 +117,37 @@ public class DisputeOrchestratorAgent {
         // Store fraud signals on the case for UI display
         disputeCase.setFraudSignals(signals);
         
-        // Extract RAG citations for UI display
+        // Extract RAG citations for UI display with titles and descriptions
         var policies = ragService.retrievePolicies("FRAUD", request.getDescription());
         var similarCases = ragService.retrieveSimilarCases(request.getDescription(), 3);
         var fraudPatterns = ragService.retrieveFraudPatterns(txnData);
         
         disputeCase.setCitedPolicies(policies.stream()
-            .map(r -> r.getId())
+            .map(r -> {
+                java.util.Map<String, String> map = new java.util.HashMap<>();
+                map.put("id", r.getId());
+                map.put("title", (String) r.getDocument().getMetadata("title"));
+                map.put("description", extractFirstLine(r.getContent()));
+                return map;
+            })
             .collect(java.util.stream.Collectors.toList()));
         disputeCase.setSimilarCases(similarCases.stream()
-            .map(r -> r.getId())
+            .map(r -> {
+                java.util.Map<String, String> map = new java.util.HashMap<>();
+                map.put("id", r.getId());
+                map.put("title", (String) r.getDocument().getMetadata("title"));
+                map.put("description", extractFirstLine(r.getContent()));
+                return map;
+            })
             .collect(java.util.stream.Collectors.toList()));
         disputeCase.setFraudPatterns(fraudPatterns.stream()
-            .map(r -> r.getId())
+            .map(r -> {
+                java.util.Map<String, String> map = new java.util.HashMap<>();
+                map.put("id", r.getId());
+                map.put("title", (String) r.getDocument().getMetadata("title"));
+                map.put("description", extractFirstLine(r.getContent()));
+                return map;
+            })
             .collect(java.util.stream.Collectors.toList()));
 
         // === STEP 4: THINK — Make decision ===
@@ -177,15 +195,27 @@ public class DisputeOrchestratorAgent {
         // Store merchant context on the case for UI display
         disputeCase.setMerchantContext(merchantContext);
         
-        // Extract RAG citations for UI display
+        // Extract RAG citations for UI display with titles and descriptions
         var policies = ragService.retrievePolicies("MERCHANT", request.getDescription());
         var similarCases = ragService.retrieveSimilarCases("Merchant dispute: " + request.getDescription(), 3);
         
         disputeCase.setCitedPolicies(policies.stream()
-            .map(r -> r.getId())
+            .map(r -> {
+                java.util.Map<String, String> map = new java.util.HashMap<>();
+                map.put("id", r.getId());
+                map.put("title", (String) r.getDocument().getMetadata("title"));
+                map.put("description", extractFirstLine(r.getContent()));
+                return map;
+            })
             .collect(java.util.stream.Collectors.toList()));
         disputeCase.setSimilarCases(similarCases.stream()
-            .map(r -> r.getId())
+            .map(r -> {
+                java.util.Map<String, String> map = new java.util.HashMap<>();
+                map.put("id", r.getId());
+                map.put("title", (String) r.getDocument().getMetadata("title"));
+                map.put("description", extractFirstLine(r.getContent()));
+                return map;
+            })
             .collect(java.util.stream.Collectors.toList()));
 
         // === STEP 4: THINK — Analyze merchant dispute ===
@@ -257,5 +287,13 @@ public class DisputeOrchestratorAgent {
         } catch (Exception e) {
             return obj.toString();
         }
+    }
+    
+    private String extractFirstLine(String content) {
+        if (content == null || content.isEmpty()) {
+            return "";
+        }
+        String[] lines = content.split("\\n");
+        return lines.length > 0 ? lines[0].trim() : "";
     }
 }

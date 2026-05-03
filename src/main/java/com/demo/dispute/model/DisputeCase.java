@@ -13,9 +13,9 @@ public class DisputeCase {
     private LocalDateTime resolvedAt;
     private FraudSignals fraudSignals;
     private MerchantContext merchantContext;
-    private java.util.List<String> citedPolicies;
-    private java.util.List<String> similarCases;
-    private java.util.List<String> fraudPatterns;
+    private java.util.List<java.util.Map<String, String>> citedPolicies;
+    private java.util.List<java.util.Map<String, String>> similarCases;
+    private java.util.List<java.util.Map<String, String>> fraudPatterns;
 
     public DisputeCase() {
         this.auditTrail = new AuditTrail();
@@ -118,27 +118,27 @@ public class DisputeCase {
         this.merchantContext = merchantContext;
     }
 
-    public java.util.List<String> getCitedPolicies() {
+    public java.util.List<java.util.Map<String, String>> getCitedPolicies() {
         return citedPolicies;
     }
 
-    public void setCitedPolicies(java.util.List<String> citedPolicies) {
+    public void setCitedPolicies(java.util.List<java.util.Map<String, String>> citedPolicies) {
         this.citedPolicies = citedPolicies;
     }
 
-    public java.util.List<String> getSimilarCases() {
+    public java.util.List<java.util.Map<String, String>> getSimilarCases() {
         return similarCases;
     }
 
-    public void setSimilarCases(java.util.List<String> similarCases) {
+    public void setSimilarCases(java.util.List<java.util.Map<String, String>> similarCases) {
         this.similarCases = similarCases;
     }
 
-    public java.util.List<String> getFraudPatterns() {
+    public java.util.List<java.util.Map<String, String>> getFraudPatterns() {
         return fraudPatterns;
     }
 
-    public void setFraudPatterns(java.util.List<String> fraudPatterns) {
+    public void setFraudPatterns(java.util.List<java.util.Map<String, String>> fraudPatterns) {
         this.fraudPatterns = fraudPatterns;
     }
 
@@ -153,9 +153,9 @@ public class DisputeCase {
         private LocalDateTime resolvedAt;
         private FraudSignals fraudSignals;
         private MerchantContext merchantContext;
-        private java.util.List<String> citedPolicies;
-        private java.util.List<String> similarCases;
-        private java.util.List<String> fraudPatterns;
+        private java.util.List<java.util.Map<String, String>> citedPolicies;
+        private java.util.List<java.util.Map<String, String>> similarCases;
+        private java.util.List<java.util.Map<String, String>> fraudPatterns;
 
         public DisputeCaseBuilder caseId(String caseId) {
             this.caseId = caseId;
@@ -207,17 +207,17 @@ public class DisputeCase {
             return this;
         }
 
-        public DisputeCaseBuilder citedPolicies(java.util.List<String> citedPolicies) {
+        public DisputeCaseBuilder citedPolicies(java.util.List<java.util.Map<String, String>> citedPolicies) {
             this.citedPolicies = citedPolicies;
             return this;
         }
 
-        public DisputeCaseBuilder similarCases(java.util.List<String> similarCases) {
+        public DisputeCaseBuilder similarCases(java.util.List<java.util.Map<String, String>> similarCases) {
             this.similarCases = similarCases;
             return this;
         }
 
-        public DisputeCaseBuilder fraudPatterns(java.util.List<String> fraudPatterns) {
+        public DisputeCaseBuilder fraudPatterns(java.util.List<java.util.Map<String, String>> fraudPatterns) {
             this.fraudPatterns = fraudPatterns;
             return this;
         }

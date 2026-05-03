@@ -130,7 +130,9 @@
                                     <span class="badge bg-warning text-dark" th:if="${case.finalDecision == 'ESCALATED_TO_HUMAN'}">🔄 ESCALATED_TO_HUMAN</span>
                                     <span class="badge bg-info" th:if="${case.finalDecision == 'APPROVED'}">✅ APPROVED</span>
                                     <span class="badge bg-danger" th:if="${case.finalDecision == 'REJECTED'}">❌ REJECTED</span>
+                                    <span class="badge bg-secondary" th:if="${case.finalDecision == null or case.finalDecision == ''}">⏳ PENDING</span>
                                 </h4>
+                                <p class="text-muted mt-2" th:if="${case.explanation != null and case.explanation != ''}" th:text="${case.explanation}"></p>
                             </div>
                             <div class="col-md-6" th:if="${case.fraudSignals != null and case.fraudSignals.score != null}">
                                 <h6><strong>Confidence Score:</strong></h6>
@@ -151,20 +153,22 @@
                         <div class="row">
                             <div class="col-md-12 mb-3" th:if="${case.citedPolicies != null and !case.citedPolicies.isEmpty()}">
                                 <h6><strong>📋 Policies Applied:</strong></h6>
-                                <p class="mb-0 text-muted">
-                                    <span th:each="policy, iterStat : ${case.citedPolicies}">
-                                        • <span th:text="${policy}"></span><br th:if="${!iterStat.last}"/>
-                                    </span>
-                                </p>
+                                <div class="mb-0">
+                                    <div th:each="policy, iterStat : ${case.citedPolicies}" class="mb-2">
+                                        <strong th:text="${policy.id}"></strong>: <span th:text="${policy.title}"></span><br/>
+                                        <small class="text-muted" th:text="${policy.description}"></small>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-12 mb-3" th:if="${case.similarCases != null and !case.similarCases.isEmpty()}">
                                 <h6><strong>📊 Similar Past Cases:</strong></h6>
-                                <p class="mb-0 text-muted">
-                                    <span th:each="caseId, iterStat : ${case.similarCases}">
-                                        • <span th:text="${caseId}"></span><br th:if="${!iterStat.last}"/>
-                                    </span>
-                                </p>
+                                <div class="mb-0">
+                                    <div th:each="caseItem, iterStat : ${case.similarCases}" class="mb-2">
+                                        <strong th:text="${caseItem.id}"></strong>: <span th:text="${caseItem.title}"></span><br/>
+                                        <small class="text-muted" th:text="${caseItem.description}"></small>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-12 mb-3" th:if="${case.merchantContext != null}">
@@ -178,11 +182,12 @@
 
                             <div class="col-md-12" th:if="${case.fraudPatterns != null and !case.fraudPatterns.isEmpty()}">
                                 <h6><strong>🔍 Fraud Pattern Matched:</strong></h6>
-                                <p class="mb-0 text-muted">
-                                    <span th:each="pattern, iterStat : ${case.fraudPatterns}">
-                                        • <span th:text="${pattern}"></span><br th:if="${!iterStat.last}"/>
-                                    </span>
-                                </p>
+                                <div class="mb-0">
+                                    <div th:each="pattern, iterStat : ${case.fraudPatterns}" class="mb-2">
+                                        <strong th:text="${pattern.id}"></strong>: <span th:text="${pattern.title}"></span><br/>
+                                        <small class="text-muted" th:text="${pattern.description}"></small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
