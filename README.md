@@ -40,6 +40,18 @@ The application uses a coordinated multi-agent architecture where each agent has
                     │ Compliance   │
                     │    Agent     │
                     └──────────────┘
+                            │
+                            ▼
+        ┌─────────────────────────────────────────────────┐
+        │              FINAL DECISION                     │
+        ├─────────────────────────────────────────────────┤
+        │  Decision: AUTO_APPROVED / ESCALATED           │
+        │  Confidence Score: 92/100 (HIGH/MEDIUM/LOW)    │
+        │                                                 │
+        │  📋 Policies: POLICY-4.2.1, POLICY-5.3.4       │
+        │  📊 Cases: CASE-2025-001234, CASE-2025-000987  │
+        │  🔍 Patterns: FP-2025-042 (94.2% accuracy)     │
+        └─────────────────────────────────────────────────┘
 ```
 
 #### Agent Responsibilities
