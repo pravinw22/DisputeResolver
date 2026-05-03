@@ -259,14 +259,14 @@ public class DisputeOrchestratorAgent {
             // Extract reason from decision text
             String reason = extractReason(decision);
             disputeCase.setExplanation(reason != null ? reason : 
-                "Fraud score " + fraudScore + "/100. Strong fraud signals detected. Auto-approved for customer protection.");
+                "Fraud score of " + fraudScore + "/100 exceeds auto-approval threshold of 80. Strong fraud indicators detected. Transaction approved for customer protection.");
         } else {
             disputeCase.setStatus(DisputeStatus.ESCALATED_TO_HUMAN);
-            disputeCase.setFinalDecision("ESCALATED");
+            disputeCase.setFinalDecision("ESCALATED_TO_HUMAN");
             
             String reason = extractReason(decision);
             disputeCase.setExplanation(reason != null ? reason : 
-                "Insufficient confidence for auto-decision. Escalated to human review.");
+                "Fraud score of " + fraudScore + "/100 is below auto-approval threshold of 80. Insufficient confidence for automatic decision. Case escalated to human review for detailed investigation.");
         }
     }
 

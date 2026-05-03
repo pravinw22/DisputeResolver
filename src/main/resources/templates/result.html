@@ -122,7 +122,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12 mb-3">
                                 <h6><strong>Decision:</strong></h6>
                                 <h4>
                                     <span class="badge bg-success" th:if="${case.finalDecision == 'AUTO_APPROVED'}">✅ AUTO_APPROVED</span>
@@ -132,9 +132,14 @@
                                     <span class="badge bg-danger" th:if="${case.finalDecision == 'REJECTED'}">❌ REJECTED</span>
                                     <span class="badge bg-secondary" th:if="${case.finalDecision == null or case.finalDecision == ''}">⏳ PENDING</span>
                                 </h4>
-                                <p class="text-muted mt-2" th:if="${case.explanation != null and case.explanation != ''}" th:text="${case.explanation}"></p>
+                                <div class="alert alert-info mt-3 mb-0" th:if="${case.explanation != null and case.explanation != ''}">
+                                    <strong>Explanation:</strong><br/>
+                                    <span th:text="${case.explanation}"></span>
+                                </div>
                             </div>
-                            <div class="col-md-6" th:if="${case.fraudSignals != null and case.fraudSignals.score != null}">
+                        </div>
+                        
+                            <div class="col-md-12 mb-3" th:if="${case.fraudSignals != null and case.fraudSignals.score != null}">
                                 <h6><strong>Confidence Score:</strong></h6>
                                 <h4>
                                     <span class="badge" th:classappend="${case.fraudSignals.score >= 80 ? 'bg-danger' : (case.fraudSignals.score >= 50 ? 'bg-warning text-dark' : 'bg-success')}" 
@@ -142,14 +147,21 @@
                                     <span class="badge bg-secondary" th:text="${case.fraudSignals.score >= 80 ? 'HIGH' : (case.fraudSignals.score >= 50 ? 'MEDIUM' : 'LOW')}"></span>
                                 </h4>
                             </div>
-                            <div class="col-md-6" th:if="${case.fraudSignals == null or case.fraudSignals.score == null}">
+                            <div class="col-md-12 mb-3" th:if="${case.fraudSignals == null or case.fraudSignals.score == null}">
                                 <h6><strong>Confidence Score:</strong></h6>
                                 <h4><span class="badge bg-secondary">N/A (REQUIRES_REVIEW)</span></h4>
                             </div>
                         </div>
-
+                        
                         <hr>
-
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-4" th:if="${case.citedPolicies != null and !case.citedPolicies.isEmpty() or case.similarCases != null and !case.similarCases.isEmpty() or case.fraudPatterns != null and !case.fraudPatterns.isEmpty()}">
+                                <h5><strong>📚 RAG-Enhanced Context</strong></h5>
+                                <p class="text-muted mb-0">The following information was retrieved from the knowledge base using semantic search:</p>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-12 mb-3" th:if="${case.citedPolicies != null and !case.citedPolicies.isEmpty()}">
                                 <h6><strong>📋 Policies Applied:</strong></h6>
