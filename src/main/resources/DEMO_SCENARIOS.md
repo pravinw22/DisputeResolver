@@ -1,301 +1,516 @@
-# 🎯 Demo Scenarios for Dispute Management System
+# 🎯 Demo Scenarios for RAG-Enhanced Dispute Management System
 
 ## Prerequisites
 - Application running on http://localhost:8080
 - LLM provider configured (Anthropic Claude or Ollama)
+- **RAG System Active**: 42 documents loaded (6 policies, 8 regulations, 10 cases, 10 patterns, 8 merchants)
 
 ---
 
-## 📋 **Scenario 1: Fraud Detection - Auto-Resolve**
+## 🆕 **RAG-Enhanced Features to Demonstrate**
 
-### Test Case: Suspicious Transaction from Unusual Location
+### What's New with RAG:
+- ✨ **Citation-Based Reasoning**: Every decision cites specific cases, patterns, or policies
+- 📊 **Historical Case Matching**: System finds similar past disputes
+- 🔍 **Fraud Pattern Recognition**: Matches against 10 known fraud signatures
+- 📋 **Policy Compliance**: Validates against 6 banking policies
+- 🏪 **Merchant Reputation**: Accesses 8 merchant profiles with history
+
+---
+
+## 📋 **Scenario 1: RAG-Enhanced Fraud Detection - Auto-Resolve**
+
+### Test Case: Foreign Transaction Fraud (Similar to Historical Cases)
 
 **Steps:**
 1. Navigate to http://localhost:8080
-2. Fill in the form:
-   - **Transaction ID**: `TXN-FRAUD-001`
-   - **Merchant Name**: `SuspiciousMerchant`
-   - **Dispute Type**: `fraud`
-   - **Amount**: `500.00`
-   - **Description**: `Unauthorized charge from foreign country`
-   - **Customer Note**: `I never made this purchase, card was stolen`
+2. Click **"Load Scenario 1"** or fill manually:
+   - **Transaction ID**: `TXN-2026-FR-001`
+   - **Merchant Name**: `Foreign Merchant Malaysia`
+   - **Dispute Type**: `FRAUD`
+   - **Amount**: `25000.00`
+   - **Description**: `Unauthorized transaction in foreign country`
+   - **Customer Note**: `I did not make this transaction. I was at home in Mumbai.`
 
-**Expected Behavior:**
-- ✅ **Status**: `RESOLVED`
+**Expected RAG-Enhanced Behavior:**
+- ✅ **Status**: `AUTO_RESOLVED`
 - ✅ **Decision**: `AUTO_APPROVED` (refund approved)
-- ✅ **Fraud Score**: High (>70)
-- ✅ **Agent Steps Visible**:
-  1. Orchestrator analyzes dispute type
-  2. FraudDetectionAgent detects high-risk signals
-  3. TransactionDataAgent finds unusual location/device
-  4. ComplianceAgent validates decision
-- ✅ **Explanation**: Clear reasoning about fraud indicators
-- ✅ **Resolution Time**: < 5 seconds
+- ✅ **Fraud Score**: 92/100 (High)
+
+**🔍 RAG Citations to Verify:**
+- 📊 **Similar Cases Retrieved**:
+  - `CASE-2025-001234`: ₹23,000 foreign transaction → AUTO_APPROVED
+  - `CASE-2025-000987`: ₹27,500 Thailand transaction → AUTO_APPROVED
+  - `CASE-2024-005432`: ₹22,000 Singapore transaction → AUTO_APPROVED
+- 🔍 **Fraud Pattern Matched**:
+  - `FP-2025-042`: "Foreign Transaction Fraud" (94.2% accuracy)
+- 📋 **Policy Applied**:
+  - `POLICY-4.2.1`: "Auto-approve if fraud score ≥ 80/100"
+
+**Agent Steps with RAG:**
+1. **Orchestrator**: Analyzes dispute type → Routes to FraudDetectionAgent
+2. **FraudDetectionAgent + RAG**:
+   - Retrieves 3 similar historical cases
+   - Matches fraud pattern FP-2025-042
+   - Retrieves relevant policy POLICY-4.2.1
+   - Calculates fraud score: 92/100
+3. **ComplianceAgent + RAG**:
+   - Validates against RBI-4.2 (dispute timeline)
+   - Validates against POLICY-4.2.1 (auto-approval threshold)
+4. **Decision**: AUTO_APPROVED with citations
+
+**✅ What to Verify:**
+- [ ] Explanation includes "Similar to CASE-2025-001234"
+- [ ] Mentions "Fraud pattern FP-2025-042 (94.2% accuracy)"
+- [ ] Cites "Policy 4.2.1: Auto-approve threshold"
+- [ ] Shows 3 similar historical cases in reasoning
+- [ ] Resolution time: 5-8 seconds (RAG adds ~2s for retrieval)
 
 ---
 
-## 📋 **Scenario 2: Merchant Dispute - Human Escalation**
+## 📋 **Scenario 2: RAG-Enhanced Merchant Dispute - Human Escalation**
 
-### Test Case: Item Not Received Dispute
+### Test Case: Item Not Delivered from Known Problematic Merchant
 
 **Steps:**
 1. Navigate to http://localhost:8080
-2. Fill in the form:
-   - **Transaction ID**: `TXN-MERCHANT-002`
-   - **Merchant Name**: `OnlineRetailer`
-   - **Dispute Type**: `merchant_dispute`
-   - **Amount**: `150.00`
-   - **Description**: `Item never delivered`
-   - **Customer Note**: `Ordered 2 weeks ago, tracking shows not delivered`
+2. Click **"Load Scenario 2"** or fill manually:
+   - **Transaction ID**: `TXN-2026-MR-002`
+   - **Merchant Name**: `QuickShop India`
+   - **Dispute Type**: `MERCHANT`
+   - **Amount**: `8000.00`
+   - **Description**: `Item not delivered after 2 weeks`
+   - **Customer Note**: `Ordered 2 weeks ago. Merchant not responding to my messages.`
 
-**Expected Behavior:**
-- ⚠️ **Status**: `PENDING_HUMAN_REVIEW`
-- ⚠️ **Decision**: `ESCALATED_TO_HUMAN`
-- ✅ **Fraud Score**: Low (<30)
-- ✅ **Agent Steps Visible**:
-  1. Orchestrator identifies merchant dispute
-  2. FraudDetectionAgent finds low fraud risk
-  3. MerchantContextAgent retrieves merchant history
-  4. Orchestrator escalates due to complexity
-- ✅ **Explanation**: Requires human review for merchant evidence
-- ✅ **Case appears in Review Queue**: http://localhost:8080/review-queue
+**Expected RAG-Enhanced Behavior:**
+- ⚠️ **Status**: `ESCALATED_TO_HUMAN` or `AUTO_APPROVED` (based on merchant history)
+- ✅ **Fraud Score**: Low (merchant dispute)
 
-**Human Review Steps:**
-1. Go to http://localhost:8080/review-queue
-2. Click "Review" on the pending case
-3. Review all agent reasoning steps
-4. Make decision: Approve or Reject
-5. Add reviewer notes
-6. Submit decision
+**🔍 RAG Citations to Verify:**
+- 🏪 **Merchant Profile Retrieved**:
+  - `MERCH-QS-001`: QuickShop India
+  - Dispute Rate: 5% (MEDIUM risk)
+  - 2 prior "not delivered" disputes in Q1 2025
+  - On-time delivery: 78%
+- 📊 **Similar Merchant Disputes**:
+  - `CASE-2025-002341`: QuickShop, not delivered → AUTO_APPROVED (5 seconds)
+  - `CASE-2025-001876`: QuickShop, disputed delivery → APPROVED after review
+- 📋 **Policy Applied**:
+  - `POLICY-5.3.4`: "Auto-approve if merchant has 2+ similar disputes"
 
-**After Human Review:**
-- ✅ **Status**: `RESOLVED`
-- ✅ **Decision**: `APPROVED` or `REJECTED` (based on reviewer)
-- ✅ **Reviewer Notes**: Visible in audit trail
+**Agent Steps with RAG:**
+1. **Orchestrator**: Routes to MerchantContextAgent
+2. **MerchantContextAgent + RAG**:
+   - Retrieves merchant profile MERCH-QS-001
+   - Finds 5% dispute rate, 2 prior similar disputes
+   - Retrieves delivery performance data
+3. **RAG Service**: Finds similar merchant dispute cases
+4. **Decision**: May AUTO_APPROVE based on merchant history OR escalate
 
----
-
-## 🧪 **Additional Test Scenarios**
-
-### Scenario 3: Low-Risk Fraud (Auto-Reject)
-```
-Transaction ID: TXN-VALID-003
-Merchant: TrustedMerchant
-Dispute Type: fraud
-Amount: 25.00
-Description: Legitimate purchase disputed
-Customer Note: I don't recognize this charge
-```
-**Expected**: Auto-rejected (fraud score <30, legitimate transaction)
+**✅ What to Verify:**
+- [ ] Explanation mentions "QuickShop India has 5% dispute rate"
+- [ ] Cites "2 prior 'not delivered' disputes in Q1 2025"
+- [ ] References "Similar case CASE-2025-002341"
+- [ ] Mentions "Policy 5.3.4: Auto-approve for merchants with 2+ similar disputes"
+- [ ] Shows merchant reputation context
 
 ---
 
-### Scenario 4: High-Value Merchant Dispute (Escalate)
-```
-Transaction ID: TXN-HIGH-004
-Merchant: PremiumStore
-Dispute Type: merchant_dispute
-Amount: 5000.00
-Description: Defective luxury item
-Customer Note: Product arrived damaged, merchant won't respond
-```
-**Expected**: Escalated due to high amount + merchant complexity
+## 🆕 **Scenario 3: RAG Pattern Matching - Card Cloning Detection**
+
+### Test Case: Multiple Rapid Transactions (Matches Known Pattern)
+
+**Steps:**
+1. Fill in the form:
+   - **Transaction ID**: `TXN-2026-FR-003`
+   - **Merchant Name**: `Multiple Merchants`
+   - **Dispute Type**: `FRAUD`
+   - **Amount**: `18500.00`
+   - **Description**: `Multiple unauthorized transactions in 30 minutes`
+   - **Customer Note**: `Card cloned. 5 transactions I didn't make in rapid succession.`
+
+**Expected RAG-Enhanced Behavior:**
+- ✅ **Status**: `AUTO_RESOLVED`
+- ✅ **Decision**: `AUTO_APPROVED`
+- ✅ **Fraud Score**: 98/100 (CRITICAL)
+
+**🔍 RAG Citations to Verify:**
+- 🔍 **Fraud Pattern Matched**:
+  - `FP-2025-038`: "Card Cloning Pattern" (97.8% accuracy)
+  - Indicators: Multiple transactions <1 hour, different locations
+- 📊 **Similar Case**:
+  - `CASE-2025-004123`: London, multiple transactions → AUTO_APPROVED (98% score)
+- 📋 **Policy**:
+  - `POLICY-4.2.2`: "Multiple transactions in <1 hour: +20 points"
+
+**✅ What to Verify:**
+- [ ] Mentions "Card Cloning Pattern FP-2025-038 (97.8% accuracy)"
+- [ ] Cites "Similar to CASE-2025-004123"
+- [ ] Shows "CRITICAL risk level"
+- [ ] Immediate auto-approval due to high confidence
 
 ---
 
-### Scenario 5: Borderline Fraud Case
-```
-Transaction ID: TXN-BORDER-005
-Merchant: RegularStore
-Dispute Type: fraud
-Amount: 200.00
-Description: Charge from known merchant but unusual amount
-Customer Note: I shop here but this amount seems wrong
-```
-**Expected**: May auto-resolve or escalate based on fraud score (40-60 range)
+## 🆕 **Scenario 4: RAG Compliance Validation - Regulation Citations**
+
+### Test Case: High-Value Dispute with Regulatory Requirements
+
+**Steps:**
+1. Fill in the form:
+   - **Transaction ID**: `TXN-2026-FR-004`
+   - **Merchant Name**: `Dubai Gold Souk`
+   - **Dispute Type**: `FRAUD`
+   - **Amount**: `45000.00`
+   - **Description**: `Large unauthorized jewelry purchase`
+   - **Customer Note**: `I never bought jewelry. This is fraud.`
+
+**Expected RAG-Enhanced Behavior:**
+- ✅ **Status**: `AUTO_RESOLVED`
+- ✅ **Decision**: `AUTO_APPROVED`
+- ✅ **Fraud Score**: 85/100
+
+**🔍 RAG Citations to Verify:**
+- 📜 **Regulations Applied**:
+  - `RBI-5.1`: "Provisional credit within 10 business days"
+  - `RBI-6.3`: "Zero liability for customer if fraud proven"
+  - `CPA-12`: "Right to appeal within 15 days"
+- 📊 **Similar Case**:
+  - `CASE-2025-003456`: Dubai, ₹45,000 → AUTO_APPROVED (85% score)
+- 📋 **Policy**:
+  - `POLICY-4.2.1`: "High-value transactions require immediate action"
+
+**✅ What to Verify:**
+- [ ] Compliance section cites "RBI-5.1", "RBI-6.3", "CPA-12"
+- [ ] Mentions "Complies with RBI guidelines"
+- [ ] Shows regulatory timeline requirements
+- [ ] Audit trail includes regulation references
 
 ---
 
-### Scenario 6: Duplicate Transaction Dispute
+## 🆕 **Scenario 5: RAG Merchant Reputation - High-Risk Merchant**
+
+### Test Case: Dispute with Known Problematic Merchant
+
+**Steps:**
+1. Fill in the form:
+   - **Transaction ID**: `TXN-2026-MR-005`
+   - **Merchant Name**: `BudgetDeals Store`
+   - **Dispute Type**: `MERCHANT`
+   - **Amount**: `5000.00`
+   - **Description**: `Item not as described, poor quality`
+   - **Customer Note**: `Product is counterfeit. Merchant won't respond.`
+
+**Expected RAG-Enhanced Behavior:**
+- ✅ **Status**: `AUTO_RESOLVED` (fast-track for high-risk merchant)
+- ✅ **Decision**: `AUTO_APPROVED`
+
+**🔍 RAG Citations to Verify:**
+- 🏪 **Merchant Profile**:
+  - `MERCH-BD-005`: BudgetDeals Store
+  - Dispute Rate: 8% (HIGH RISK - exceeds 5% threshold)
+  - Risk Level: HIGH
+  - 4 prior disputes in Q1 2025
+- 📋 **Policy**:
+  - `POLICY-5.3.4`: "High-risk merchants (>5% dispute rate): Fast-track customer claims"
+- 📊 **Similar Cases**: Multiple disputes against this merchant
+
+**✅ What to Verify:**
+- [ ] Mentions "BudgetDeals Store has 8% dispute rate (HIGH RISK)"
+- [ ] Cites "Policy 5.3.4: Fast-track for high-risk merchants"
+- [ ] Shows "Under review for potential suspension"
+- [ ] Auto-approves due to merchant's poor reputation
+
+---
+
+## 🆕 **Scenario 6: RAG Premium Merchant - Requires Evidence**
+
+### Test Case: Dispute with Low-Risk Premium Merchant
+
+**Steps:**
+1. Fill in the form:
+   - **Transaction ID**: `TXN-2026-MR-006`
+   - **Merchant Name**: `LuxuryFashion Boutique`
+   - **Dispute Type**: `MERCHANT`
+   - **Amount**: `15000.00`
+   - **Description**: `Size mismatch on luxury item`
+   - **Customer Note**: `Ordered size M, received size S.`
+
+**Expected RAG-Enhanced Behavior:**
+- ⚠️ **Status**: `ESCALATED_TO_HUMAN`
+- ✅ **Reason**: Premium merchant with excellent reputation
+
+**🔍 RAG Citations to Verify:**
+- 🏪 **Merchant Profile**:
+  - `MERCH-LF-004`: LuxuryFashion Boutique
+  - Dispute Rate: 1% (LOW RISK - premium merchant)
+  - On-time delivery: 96%
+  - Customer rating: 4.7/5
+- 📋 **Policy**:
+  - `POLICY-5.3.4`: "Low-risk merchants (<1%): Require strong evidence from customer"
+- 📜 **Regulation**:
+  - `RBI-8.2`: "Merchant has 14 days to provide evidence"
+
+**✅ What to Verify:**
+- [ ] Mentions "Premium merchant with 1% dispute rate"
+- [ ] Cites "Policy 5.3.4: Extended investigation for low-risk merchants"
+- [ ] Escalates to human for balanced review
+- [ ] Shows merchant's excellent track record
+
+---
+
+## 🧪 **Additional RAG Test Scenarios**
+
+### Scenario 7: Phishing Attack Pattern
 ```
-Transaction ID: TXN-DUP-006
-Merchant: CoffeShop
-Dispute Type: merchant_dispute
-Amount: 15.00
-Description: Charged twice for same purchase
-Customer Note: I was charged twice, have receipt for single purchase
+Transaction ID: TXN-2026-FR-007
+Merchant: NYC Electronics Hub
+Dispute Type: FRAUD
+Amount: 32000.00
+Description: Phishing scam transaction
+Customer Note: Received fake email, shared OTP by mistake
 ```
-**Expected**: Escalated for merchant verification
+**Expected RAG**: Matches `FP-2025-051` (Phishing Pattern, 91.5% accuracy)
 
 ---
 
-## 🔍 **What to Verify in Each Scenario**
-
-### ✅ UI Elements
-- [ ] Form submission works
-- [ ] Result page shows complete case details
-- [ ] Audit trail displays all agent steps
-- [ ] Timestamps are accurate
-- [ ] Review queue shows pending cases
-- [ ] Navigation between pages works
-
-### ✅ Agent Behavior (ReAct Pattern)
-- [ ] **THINK**: Agent reasoning is clear and logical
-- [ ] **ACT**: Actions taken are properly logged
-- [ ] **OBSERVE**: Observations from other agents are captured
-- [ ] **DECIDE**: Final decision includes detailed explanation
-
-### ✅ Business Logic
-- [ ] Fraud cases with score >70 → Auto-approve refund
-- [ ] Fraud cases with score <30 → Auto-reject (legitimate)
-- [ ] Merchant disputes → Always escalate to human
-- [ ] High amounts (>$1000) → Escalate regardless of type
-- [ ] Compliance checks pass for all decisions
-- [ ] Audit trail is complete and immutable
-
-### ✅ Human-in-the-Loop
-- [ ] Cases appear in review queue immediately
-- [ ] Reviewer can see full agent context
-- [ ] Decisions are properly recorded
-- [ ] Audit trail includes reviewer actions
-- [ ] Status updates correctly after review
-
-### ✅ Data Integrity
-- [ ] Case IDs are unique
-- [ ] Timestamps are accurate
-- [ ] All fields are properly saved
-- [ ] Concurrent access works (test with multiple cases)
+### Scenario 8: Subscription Fraud
+```
+Transaction ID: TXN-2026-FR-008
+Merchant: Foreign Subscription Service
+Dispute Type: FRAUD
+Amount: 2500.00
+Description: Recurring charges I never authorized
+Customer Note: Small charges adding up, never signed up
+```
+**Expected RAG**: Matches `FP-2025-106` (Subscription Fraud, 75.3% accuracy)
 
 ---
 
-## 📊 **Expected Response Times**
-
-| Scenario | Expected Time | Notes |
-|----------|---------------|-------|
-| Auto-resolve (fraud) | 3-5 seconds | Depends on LLM response time |
-| Auto-reject (fraud) | 3-5 seconds | Depends on LLM response time |
-| Escalate (merchant) | 2-4 seconds | Faster as no complex analysis |
-| Human review | Manual | 30-60 seconds typical |
+### Scenario 9: Reliable Merchant Dispute
+```
+Transaction ID: TXN-2026-MR-009
+Merchant: TechGadgets Pro
+Dispute Type: MERCHANT
+Amount: 12000.00
+Description: Defective product
+Customer Note: Product stopped working after 1 week
+```
+**Expected RAG**: Retrieves `MERCH-TG-002` (2% dispute rate, LOW RISK) → Escalate for evidence
 
 ---
 
-## 🎭 **Testing Different LLM Providers**
+### Scenario 10: Healthcare Merchant (Critical Category)
+```
+Transaction ID: TXN-2026-MR-010
+Merchant: HealthEssentials Pharmacy
+Dispute Type: MERCHANT
+Amount: 3000.00
+Description: Wrong medicine delivered
+Customer Note: Ordered Medicine A, received Medicine B
+```
+**Expected RAG**: Retrieves `MERCH-HE-006` (1% dispute rate, healthcare category) → Immediate escalation
 
-### With Anthropic Claude
+---
+
+## 🔍 **RAG-Specific Verification Checklist**
+
+### ✅ Knowledge Base Access
+- [ ] System loads 42 documents on startup
+- [ ] Startup logs show: "Loaded 6 policies, 8 regulations, 10 cases, 10 patterns, 8 merchants"
+- [ ] Vector store statistics displayed: `{totalDocuments=42, categoryCounts=...}`
+
+### ✅ Citation Quality
+- [ ] Every decision includes specific document IDs (e.g., CASE-2025-001234)
+- [ ] Fraud patterns cited with accuracy percentages
+- [ ] Policies cited with section numbers
+- [ ] Regulations cited with authority (RBI, CPA, IT Act)
+- [ ] Merchant profiles cited with dispute rates
+
+### ✅ Semantic Search Accuracy
+- [ ] Similar cases are actually relevant (check descriptions)
+- [ ] Fraud patterns match the dispute characteristics
+- [ ] Policies retrieved are applicable to dispute type
+- [ ] Merchant data is for the correct merchant
+
+### ✅ RAG Performance
+- [ ] Retrieval adds 2-3 seconds to processing time
+- [ ] No errors in embedding generation
+- [ ] Vector search returns results (not empty)
+- [ ] Similarity scores are reasonable (>0.4 for relevant docs)
+
+### ✅ Enhanced Explanations
+- [ ] Explanations are more detailed than before
+- [ ] Include "Based on similar case..." phrases
+- [ ] Reference specific fraud patterns by ID
+- [ ] Cite policy sections and regulation numbers
+- [ ] Mention merchant reputation explicitly
+
+---
+
+## 📊 **Expected Response Times (with RAG)**
+
+| Scenario | Without RAG | With RAG | RAG Overhead |
+|----------|-------------|----------|--------------|
+| Auto-resolve (fraud) | 3-5s | 5-8s | +2-3s |
+| Auto-reject (fraud) | 3-5s | 5-8s | +2-3s |
+| Escalate (merchant) | 2-4s | 4-6s | +2s |
+| Human review | Manual | Manual | N/A |
+
+**Note**: RAG overhead is for:
+- Embedding generation (query)
+- Vector search (3-5 documents)
+- Context injection into prompt
+
+---
+
+## 🎭 **RAG System Health Checks**
+
+### Verify RAG is Working
 ```bash
-export ANTHROPIC_API_KEY=your_key_here
-# Set in application.properties: llm.provider=anthropic
-mvn spring-boot:run
-```
-**Expected**: More detailed reasoning, better context understanding
+# Check startup logs
+tail -f logs/application.log | grep "RAG"
 
-### With Ollama (Local)
-```bash
-ollama pull llama2
-# Set in application.properties: llm.provider=ollama
-mvn spring-boot:run
+# Expected output:
+# INFO: Starting RAG data loading...
+# INFO: Loaded 6 policies
+# INFO: Loaded 8 regulations
+# INFO: Loaded 10 historical cases
+# INFO: Loaded 10 fraud patterns
+# INFO: Loaded 8 merchants
+# INFO: RAG data loading completed successfully!
 ```
-**Expected**: Faster responses, works offline, may be less detailed
+
+### Test RAG Retrieval
+1. Submit any fraud dispute
+2. Check agent reasoning in result page
+3. Look for phrases like:
+   - "Similar to CASE-..."
+   - "Matches fraud pattern FP-..."
+   - "According to policy POLICY-..."
+   - "Complies with regulation RBI-..."
+
+### Verify Vector Store
+- Check logs for: `{totalDocuments=42, categoryCounts={POLICY=6, REGULATION=8, FRAUD_PATTERN=10, CASE=10, MERCHANT=8}}`
+- If count is wrong, check JSON files in `src/main/resources/rag-data/`
 
 ---
 
-## 🐛 **Troubleshooting**
+## 🐛 **RAG-Specific Troubleshooting**
 
-### LLM Connection Issues
-**Problem**: "Failed to connect to LLM service"
+### No Citations in Decisions
+**Problem**: Decisions don't include document IDs
 **Solutions**:
-- Check `ANTHROPIC_API_KEY` is set correctly
-- Verify Ollama is running: `ollama list`
-- Check network connectivity
-- Review application logs for detailed error
+- Check RAG data loaded: Look for "RAG data loading completed" in logs
+- Verify vector store size: Should be 42 documents
+- Check agent prompts include RAG context
+- Ensure RagService is injected into agents
 
-### UI Not Loading
-**Problem**: Blank page or 404 errors
+### Irrelevant Documents Retrieved
+**Problem**: Retrieved cases/patterns don't match dispute
 **Solutions**:
-- Verify port 8080 is available: `lsof -i :8080`
-- Check Spring Boot startup logs
-- Ensure templates exist in `src/main/resources/templates/`
-- Clear browser cache
+- Check similarity threshold (default: 0.4-0.5)
+- Verify embedding model is working
+- Review query construction in RagService
+- Check document content in JSON files
 
-### Incorrect Decisions
-**Problem**: Agent decisions don't match expected behavior
+### Slow Performance
+**Problem**: RAG adds >5 seconds to processing
 **Solutions**:
-- Review agent prompts in `Prompts.java`
-- Check LLM provider responses in logs
-- Verify fraud scoring logic in `FraudDetectionAgent.java`
-- Test with different LLM providers
+- Check embedding model initialization (should be once at startup)
+- Monitor vector search performance
+- Consider reducing topK parameter (default: 3-5)
+- Verify in-memory vector store is used (not disk-based)
 
-### Performance Issues
-**Problem**: Slow response times (>10 seconds)
+### Missing Knowledge Base
+**Problem**: "No documents found" errors
 **Solutions**:
-- Check LLM API rate limits
-- Monitor network latency
-- Consider using Ollama for faster local processing
-- Review agent orchestration logic
+- Verify JSON files exist in `src/main/resources/rag-data/`
+- Check file permissions
+- Review RagDataLoader logs for errors
+- Ensure JSON format is valid
 
 ---
 
-## 📝 **Test Checklist**
+## 📝 **RAG-Enhanced Test Checklist**
 
-Use this checklist to verify all functionality:
+Use this checklist to verify RAG functionality:
 
-- [ ] **Scenario 1**: Fraud auto-approved
-- [ ] **Scenario 2**: Merchant dispute escalated
-- [ ] **Scenario 3**: Low-risk fraud rejected
-- [ ] **Scenario 4**: High-value escalated
-- [ ] **Scenario 5**: Borderline case handled
-- [ ] **Scenario 6**: Duplicate transaction escalated
-- [ ] Review queue displays pending cases
-- [ ] Human review workflow completes
-- [ ] Audit trail is complete
-- [ ] All agent steps are visible
-- [ ] Timestamps are accurate
-- [ ] Navigation works correctly
-- [ ] Error handling works (test with invalid inputs)
-- [ ] Concurrent cases work (submit multiple)
+- [ ] **Startup**: 42 documents loaded successfully
+- [ ] **Scenario 1**: Fraud with case citations (CASE-2025-001234, etc.)
+- [ ] **Scenario 2**: Merchant with profile data (MERCH-QS-001)
+- [ ] **Scenario 3**: Pattern matching (FP-2025-038)
+- [ ] **Scenario 4**: Regulation citations (RBI-5.1, CPA-12)
+- [ ] **Scenario 5**: High-risk merchant fast-track (MERCH-BD-005)
+- [ ] **Scenario 6**: Premium merchant escalation (MERCH-LF-004)
+- [ ] **Scenario 7**: Phishing pattern (FP-2025-051)
+- [ ] **Scenario 8**: Subscription fraud (FP-2025-106)
+- [ ] **Scenario 9**: Reliable merchant (MERCH-TG-002)
+- [ ] **Scenario 10**: Healthcare category (MERCH-HE-006)
+- [ ] All decisions include specific citations
+- [ ] Similar cases are relevant
+- [ ] Fraud patterns match characteristics
+- [ ] Policies are correctly applied
+- [ ] Merchant data is accurate
+- [ ] Compliance checks cite regulations
+- [ ] Performance is acceptable (<10s)
 
 ---
 
 ## 🚀 **Quick Start Commands**
 
 ```bash
-# Start application
+# Start application with RAG
 mvn spring-boot:run
+
+# Verify RAG loaded
+curl http://localhost:8080/actuator/health
+# Or check logs for "RAG data loading completed"
 
 # Access main page
 open http://localhost:8080
 
 # Access review queue
-open http://localhost:8080/review-queue
+open http://localhost:8080/review
 
-# View logs
-tail -f logs/application.log
-
-# Stop application
-Ctrl+C
+# Test fraud scenario with RAG
+curl -X POST http://localhost:8080/api/disputes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "transactionId": "TXN-TEST-001",
+    "disputeType": "FRAUD",
+    "amount": 25000.0,
+    "description": "Foreign transaction fraud",
+    "customerNote": "I was at home in Mumbai"
+  }'
 ```
 
 ---
 
-## 📚 **Additional Resources**
+## 💡 **Tips for RAG Demo**
 
-- **Architecture**: See `UC4_Dispute_Management_Implementation_Spec.md`
-- **API Documentation**: Check `README.md`
-- **Agent Prompts**: Review `src/main/java/com/demo/dispute/config/Prompts.java`
-- **Model Classes**: See `src/main/java/com/demo/dispute/model/`
-
----
-
-## 💡 **Tips for Demo**
-
-1. **Start with Scenario 1** (fraud) - most impressive auto-resolution
-2. **Show Scenario 2** (merchant) - demonstrates human-in-loop
-3. **Highlight agent reasoning** - show the ReAct pattern in action
-4. **Demonstrate review queue** - show human oversight capability
-5. **Test edge cases** - show robustness with unusual inputs
-6. **Compare LLM providers** - show flexibility of architecture
+1. **Start with Scenario 1** - Shows clear case citations
+2. **Highlight citations** - Point out specific CASE-IDs, pattern IDs
+3. **Show merchant reputation** - Scenario 5 vs Scenario 6 contrast
+4. **Demonstrate pattern matching** - Scenario 3 with 97.8% accuracy
+5. **Explain compliance** - Scenario 4 with regulation citations
+6. **Compare before/after** - Show how RAG improves explanations
+7. **Show knowledge base** - Mention 42 documents, 5 categories
+8. **Emphasize accuracy** - Fraud patterns with 78-98% accuracy
+9. **Highlight learning** - System improves as more data is added
+10. **Discuss scalability** - Easy to add more documents
 
 ---
 
-**Last Updated**: 2026-04-21
-**Version**: 1.0.0
+## 📚 **RAG Documentation References**
+
+- **RAG Architecture**: See `README.md` - RAG Architecture section
+- **Feasibility Study**: See `RAG_FEASIBILITY_STUDY.md`
+- **Knowledge Base**: Check `src/main/resources/rag-data/` JSON files
+- **RAG Services**: Review `src/main/java/com/demo/dispute/rag/`
+- **Agent Integration**: See enhanced agents in `src/main/java/com/demo/dispute/agent/`
+
+---
+
+**Last Updated**: 2026-05-03
+**Version**: 2.0.0 (RAG-Enhanced)
+**Knowledge Base**: 42 documents (6 policies, 8 regulations, 10 cases, 10 patterns, 8 merchants)
