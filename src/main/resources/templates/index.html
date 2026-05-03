@@ -25,9 +25,52 @@
             transform: translateX(-5px);
             transition: transform 0.2s;
         }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
+        .spinner-border-custom {
+            width: 4rem;
+            height: 4rem;
+            border-width: 0.4rem;
+        }
+        .loading-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .loading-subtext {
+            color: #ccc;
+            margin-top: 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner-border spinner-border-custom text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="loading-text">Processing Dispute...</div>
+        <div class="loading-subtext">AI agents are analyzing your case</div>
+    </div>
+
     <div class="container">
         <div class="main-container">
             <h1 class="text-center mb-4">🏦 Dispute Management System</h1>
@@ -83,7 +126,7 @@
                                 </div>
 
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg">Submit Dispute</button>
+                                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">Submit Dispute</button>
                                 </div>
                             </form>
                         </div>
@@ -123,6 +166,36 @@
     </div>
 
     <script>
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const submitBtn = document.getElementById('submitBtn');
+        const disputeForm = document.getElementById('disputeForm');
+
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+            submitBtn.disabled = true;
+            // Disable all scenario buttons
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+            // Disable all form inputs
+            document.querySelectorAll('#disputeForm input, #disputeForm select, #disputeForm textarea').forEach(input => {
+                input.disabled = true;
+            });
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove('active');
+            submitBtn.disabled = false;
+            // Re-enable all scenario buttons
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.disabled = false;
+            });
+            // Re-enable all form inputs
+            document.querySelectorAll('#disputeForm input, #disputeForm select, #disputeForm textarea').forEach(input => {
+                input.disabled = false;
+            });
+        }
+
         function loadScenario1() {
             document.getElementById("disputeType").value = "FRAUD";
             document.getElementById("transactionId").value = "TXN-FRAUD-" + Date.now();
@@ -153,8 +226,11 @@
             document.getElementById("customerNote").value = "I did not make this transaction. I was at home in Mumbai. My card was stolen last week. This is clearly fraud with foreign location and unusual merchant.";
         }
 
-        document.getElementById("disputeForm").addEventListener("submit", async function(e) {
+        disputeForm.addEventListener("submit", async function(e) {
             e.preventDefault();
+            
+            // Show loading overlay
+            showLoading();
             
             const formData = {
                 disputeType: document.getElementById("disputeType").value,
@@ -177,11 +253,14 @@
 
                 if (response.ok) {
                     const result = await response.json();
+                    // Keep loading overlay visible during redirect
                     window.location.href = "/result?caseId=" + result.caseId;
                 } else {
+                    hideLoading();
                     alert("Error submitting dispute. Please try again.");
                 }
             } catch (error) {
+                hideLoading();
                 alert("Error: " + error.message);
             }
         });
