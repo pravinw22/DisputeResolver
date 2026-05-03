@@ -384,11 +384,35 @@ The application includes two pre-configured scenarios:
 - Customer: No travel history, was at home in Mumbai
 
 **Expected Flow:**
-1. System fetches transaction data
-2. Fraud detection analyzes signals
-3. High fraud score (92/100) detected
-4. Auto-approves dispute
-5. Compliance validates decision
+1. OrchestratorAgent → TransactionDataAgent (fetch transaction data)
+2. OrchestratorAgent → FraudDetectionAgent (analyze fraud signals)
+3. FraudDetectionAgent → Fraud score: 92/100 detected
+4. OrchestratorAgent → ComplianceAgent (validate decision)
+5. ComplianceAgent → Decision validated
+
+**Agent Interaction Flow:**
+```
+OrchestratorAgent
+    ↓
+TransactionDataAgent
+    ↓
+FraudDetectionAgent
+    ↓
+OrchestratorAgent
+    ↓
+ComplianceAgent
+    ↓
+┌─────────────────────────────────────────────────┐
+│              FINAL DECISION                     │
+├─────────────────────────────────────────────────┤
+│  Decision: AUTO_APPROVED                        │
+│  Confidence Score: 92/100 (HIGH)                │
+│                                                 │
+│  📋 Policies: POLICY-4.2.1                      │
+│  📊 Cases: CASE-2025-001234, CASE-2025-000987   │
+│  🔍 Pattern: FP-2025-042 (94.2% accuracy)       │
+└─────────────────────────────────────────────────┘
+```
 
 **Result**: ✅ AUTO_RESOLVED
 
@@ -402,11 +426,33 @@ The application includes two pre-configured scenarios:
 - Merchant: Not responding to customer
 
 **Expected Flow:**
-1. System fetches transaction and merchant data
-2. Checks delivery status: NOT_DELIVERED
-3. Reviews merchant history: 2 prior disputes
-4. Cannot auto-resolve due to ambiguity
-5. Escalates to human review queue
+1. OrchestratorAgent → TransactionDataAgent (fetch transaction data)
+2. OrchestratorAgent → MerchantContextAgent (check merchant history)
+3. MerchantContextAgent → Delivery status: NOT_DELIVERED, 2 prior disputes
+4. OrchestratorAgent → Cannot auto-resolve due to ambiguity
+5. OrchestratorAgent → Escalates to human review queue
+
+**Agent Interaction Flow:**
+```
+OrchestratorAgent
+    ↓
+TransactionDataAgent
+    ↓
+MerchantContextAgent
+    ↓
+OrchestratorAgent
+    ↓
+┌─────────────────────────────────────────────────┐
+│              FINAL DECISION                     │
+├─────────────────────────────────────────────────┤
+│  Decision: ESCALATED_TO_HUMAN                   │
+│  Confidence Score: N/A (REQUIRES_REVIEW)        │
+│                                                 │
+│  📋 Reason: Merchant dispute requires evidence  │
+│  📊 Merchant: MERCH-QS-001 (5% dispute rate)    │
+│  🔍 Context: 2 prior disputes, NOT_DELIVERED    │
+└─────────────────────────────────────────────────┘
+```
 
 **Result**: 🔄 ESCALATED_TO_HUMAN
 
