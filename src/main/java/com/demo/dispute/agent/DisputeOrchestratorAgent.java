@@ -110,6 +110,9 @@ public class DisputeOrchestratorAgent {
         step3.setObservation("Fraud score: " + signals.getScore() + "/100 | Signals: " + 
                             signals.getSignals() + " | Recommendation: " + signals.getRecommendation());
         trail.addStep(step3);
+        
+        // Store fraud signals on the case for UI display
+        disputeCase.setFraudSignals(signals);
 
         // === STEP 4: THINK — Make decision ===
         AgentStep step4 = AgentStep.builder()
@@ -152,6 +155,9 @@ public class DisputeOrchestratorAgent {
         MerchantContext merchantContext = merchantContextAgent.fetch(request.getMerchantName());
         step3.setObservation(toJson(merchantContext));
         trail.addStep(step3);
+        
+        // Store merchant context on the case for UI display
+        disputeCase.setMerchantContext(merchantContext);
 
         // === STEP 4: THINK — Analyze merchant dispute ===
         AgentStep step4 = AgentStep.builder()

@@ -11,6 +11,8 @@ public class DisputeCase {
     private AuditTrail auditTrail;
     private LocalDateTime createdAt;
     private LocalDateTime resolvedAt;
+    private FraudSignals fraudSignals;
+    private MerchantContext merchantContext;
 
     public DisputeCase() {
         this.auditTrail = new AuditTrail();
@@ -97,6 +99,22 @@ public class DisputeCase {
         this.resolvedAt = resolvedAt;
     }
 
+    public FraudSignals getFraudSignals() {
+        return fraudSignals;
+    }
+
+    public void setFraudSignals(FraudSignals fraudSignals) {
+        this.fraudSignals = fraudSignals;
+    }
+
+    public MerchantContext getMerchantContext() {
+        return merchantContext;
+    }
+
+    public void setMerchantContext(MerchantContext merchantContext) {
+        this.merchantContext = merchantContext;
+    }
+
     public static class DisputeCaseBuilder {
         private String caseId;
         private DisputeRequest request;
@@ -106,6 +124,8 @@ public class DisputeCase {
         private AuditTrail auditTrail = new AuditTrail();
         private LocalDateTime createdAt;
         private LocalDateTime resolvedAt;
+        private FraudSignals fraudSignals;
+        private MerchantContext merchantContext;
 
         public DisputeCaseBuilder caseId(String caseId) {
             this.caseId = caseId;
@@ -147,9 +167,22 @@ public class DisputeCase {
             return this;
         }
 
+        public DisputeCaseBuilder fraudSignals(FraudSignals fraudSignals) {
+            this.fraudSignals = fraudSignals;
+            return this;
+        }
+
+        public DisputeCaseBuilder merchantContext(MerchantContext merchantContext) {
+            this.merchantContext = merchantContext;
+            return this;
+        }
+
         public DisputeCase build() {
-            return new DisputeCase(caseId, request, status, finalDecision, explanation, 
+            DisputeCase disputeCase = new DisputeCase(caseId, request, status, finalDecision, explanation, 
                                    auditTrail, createdAt, resolvedAt);
+            disputeCase.setFraudSignals(fraudSignals);
+            disputeCase.setMerchantContext(merchantContext);
+            return disputeCase;
         }
     }
 }
