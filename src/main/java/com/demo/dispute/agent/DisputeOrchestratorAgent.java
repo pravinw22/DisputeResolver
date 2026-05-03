@@ -18,6 +18,7 @@ public class DisputeOrchestratorAgent {
     private final MerchantContextAgent merchantContextAgent;
     private final ComplianceAgent complianceAgent;
     private final ObjectMapper objectMapper;
+    private final com.demo.dispute.rag.RagService ragService;
 
     public DisputeOrchestratorAgent(
             LlmService llmService,
@@ -25,13 +26,15 @@ public class DisputeOrchestratorAgent {
             TransactionDataAgent transactionDataAgent,
             MerchantContextAgent merchantContextAgent,
             ComplianceAgent complianceAgent,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            com.demo.dispute.rag.RagService ragService) {
         this.llmService = llmService;
         this.fraudDetectionAgent = fraudDetectionAgent;
         this.transactionDataAgent = transactionDataAgent;
         this.merchantContextAgent = merchantContextAgent;
         this.complianceAgent = complianceAgent;
         this.objectMapper = objectMapper;
+        this.ragService = ragService;
     }
 
     public DisputeCase process(DisputeCase disputeCase) {
@@ -113,6 +116,21 @@ public class DisputeOrchestratorAgent {
         
         // Store fraud signals on the case for UI display
         disputeCase.setFraudSignals(signals);
+        
+        // Extract RAG citations for UI display
+        var policies = ragService.retrievePolicies("FRAUD", request.getDescription());
+        var similarCases = ragService.retrieveSimilarCases(request.getDescription(), 3);
+        var fraudPatterns = ragService.retrieveFraudPatterns(txnData);
+        
+        disputeCase.setCitedPolicies(policies.stream()
+            .map(r -> r.getId())
+            .collect(java.util.stream.Collectors.toList()));
+        disputeCase.setSimilarCases(similarCases.stream()
+            .map(r -> r.getId())
+            .collect(java.util.stream.Collectors.toList()));
+        disputeCase.setFraudPatterns(fraudPatterns.stream()
+            .map(r -> r.getId())
+            .collect(java.util.stream.Collectors.toList()));
 
         // === STEP 4: THINK — Make decision ===
         AgentStep step4 = AgentStep.builder()
@@ -158,6 +176,17 @@ public class DisputeOrchestratorAgent {
         
         // Store merchant context on the case for UI display
         disputeCase.setMerchantContext(merchantContext);
+        
+        // Extract RAG citations for UI display
+        var policies = ragService.retrievePolicies("MERCHANT", request.getDescription());
+        var similarCases = ragService.retrieveSimilarCases("Merchant dispute: " + request.getDescription(), 3);
+        
+        disputeCase.setCitedPolicies(policies.stream()
+            .map(r -> r.getId())
+            .collect(java.util.stream.Collectors.toList()));
+        disputeCase.setSimilarCases(similarCases.stream()
+            .map(r -> r.getId())
+            .collect(java.util.stream.Collectors.toList()));
 
         // === STEP 4: THINK — Analyze merchant dispute ===
         AgentStep step4 = AgentStep.builder()

@@ -149,20 +149,21 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-3" th:if="${case.citedPolicies != null and !case.citedPolicies.isEmpty()}">
                                 <h6><strong>📋 Policies Applied:</strong></h6>
                                 <p class="mb-0 text-muted">
-                                    • POLICY-4.2.1: Auto-approve if fraud score ≥ 80/100<br>
-                                    • POLICY-5.3.4: Merchant disputes require evidence review
+                                    <span th:each="policy, iterStat : ${case.citedPolicies}">
+                                        • <span th:text="${policy}"></span><br th:if="${!iterStat.last}"/>
+                                    </span>
                                 </p>
                             </div>
 
-                            <div class="col-md-12 mb-3" th:if="${case.fraudSignals != null and case.fraudSignals.score != null and case.fraudSignals.score >= 80}">
+                            <div class="col-md-12 mb-3" th:if="${case.similarCases != null and !case.similarCases.isEmpty()}">
                                 <h6><strong>📊 Similar Past Cases:</strong></h6>
                                 <p class="mb-0 text-muted">
-                                    • CASE-2025-001234: ₹23,000 foreign transaction → AUTO_APPROVED<br>
-                                    • CASE-2025-000987: ₹27,500 Thailand transaction → AUTO_APPROVED<br>
-                                    • CASE-2025-005432: ₹22,000 Singapore transaction → AUTO_APPROVED
+                                    <span th:each="caseId, iterStat : ${case.similarCases}">
+                                        • <span th:text="${caseId}"></span><br th:if="${!iterStat.last}"/>
+                                    </span>
                                 </p>
                             </div>
 
@@ -175,10 +176,12 @@
                                 </p>
                             </div>
 
-                            <div class="col-md-12" th:if="${case.fraudSignals != null and case.fraudSignals.score != null and case.fraudSignals.score >= 80}">
+                            <div class="col-md-12" th:if="${case.fraudPatterns != null and !case.fraudPatterns.isEmpty()}">
                                 <h6><strong>🔍 Fraud Pattern Matched:</strong></h6>
                                 <p class="mb-0 text-muted">
-                                    • FP-2025-042: Foreign Transaction Fraud (94.2% accuracy)
+                                    <span th:each="pattern, iterStat : ${case.fraudPatterns}">
+                                        • <span th:text="${pattern}"></span><br th:if="${!iterStat.last}"/>
+                                    </span>
                                 </p>
                             </div>
                         </div>

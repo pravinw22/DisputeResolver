@@ -13,6 +13,9 @@ public class DisputeCase {
     private LocalDateTime resolvedAt;
     private FraudSignals fraudSignals;
     private MerchantContext merchantContext;
+    private java.util.List<String> citedPolicies;
+    private java.util.List<String> similarCases;
+    private java.util.List<String> fraudPatterns;
 
     public DisputeCase() {
         this.auditTrail = new AuditTrail();
@@ -115,6 +118,30 @@ public class DisputeCase {
         this.merchantContext = merchantContext;
     }
 
+    public java.util.List<String> getCitedPolicies() {
+        return citedPolicies;
+    }
+
+    public void setCitedPolicies(java.util.List<String> citedPolicies) {
+        this.citedPolicies = citedPolicies;
+    }
+
+    public java.util.List<String> getSimilarCases() {
+        return similarCases;
+    }
+
+    public void setSimilarCases(java.util.List<String> similarCases) {
+        this.similarCases = similarCases;
+    }
+
+    public java.util.List<String> getFraudPatterns() {
+        return fraudPatterns;
+    }
+
+    public void setFraudPatterns(java.util.List<String> fraudPatterns) {
+        this.fraudPatterns = fraudPatterns;
+    }
+
     public static class DisputeCaseBuilder {
         private String caseId;
         private DisputeRequest request;
@@ -126,6 +153,9 @@ public class DisputeCase {
         private LocalDateTime resolvedAt;
         private FraudSignals fraudSignals;
         private MerchantContext merchantContext;
+        private java.util.List<String> citedPolicies;
+        private java.util.List<String> similarCases;
+        private java.util.List<String> fraudPatterns;
 
         public DisputeCaseBuilder caseId(String caseId) {
             this.caseId = caseId;
@@ -177,11 +207,29 @@ public class DisputeCase {
             return this;
         }
 
+        public DisputeCaseBuilder citedPolicies(java.util.List<String> citedPolicies) {
+            this.citedPolicies = citedPolicies;
+            return this;
+        }
+
+        public DisputeCaseBuilder similarCases(java.util.List<String> similarCases) {
+            this.similarCases = similarCases;
+            return this;
+        }
+
+        public DisputeCaseBuilder fraudPatterns(java.util.List<String> fraudPatterns) {
+            this.fraudPatterns = fraudPatterns;
+            return this;
+        }
+
         public DisputeCase build() {
             DisputeCase disputeCase = new DisputeCase(caseId, request, status, finalDecision, explanation, 
                                    auditTrail, createdAt, resolvedAt);
             disputeCase.setFraudSignals(fraudSignals);
             disputeCase.setMerchantContext(merchantContext);
+            disputeCase.setCitedPolicies(citedPolicies);
+            disputeCase.setSimilarCases(similarCases);
+            disputeCase.setFraudPatterns(fraudPatterns);
             return disputeCase;
         }
     }
