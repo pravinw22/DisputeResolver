@@ -6,95 +6,118 @@
     <title>Dispute Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .scenario-btn {
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 16px;
-        }
-        .form-container {
-            max-width: 800px;
+        .main-container {
+            max-width: 1200px;
             margin: 50px auto;
+        }
+        .scenario-sidebar {
+            position: sticky;
+            top: 20px;
+        }
+        .scenario-btn {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
+            text-align: left;
+        }
+        .scenario-btn:hover {
+            transform: translateX(-5px);
+            transition: transform 0.2s;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="form-container">
+        <div class="main-container">
             <h1 class="text-center mb-4">🏦 Dispute Management System</h1>
             <p class="text-center text-muted mb-4">AI-Powered Dispute Resolution using ReAct Pattern</p>
 
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5>Demo Scenarios</h5>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-danger scenario-btn" onclick="loadScenario1()">
-                        🚨 Scenario 1: Fraudulent Transaction
-                    </button>
-                    <button class="btn btn-warning scenario-btn" onclick="loadScenario2()">
-                        📦 Scenario 2: Merchant Dispute
-                    </button>
-                    <button class="btn btn-success scenario-btn" onclick="loadScenario3()">
-                        ✅ Scenario 3: Auto-Resolve Fraud (High Confidence)
-                    </button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h5>Submit Dispute</h5>
-                </div>
-                <div class="card-body">
-                    <form id="disputeForm">
-                        <div class="mb-3">
-                            <label for="disputeType" class="form-label">Dispute Type</label>
-                            <select class="form-select" id="disputeType" name="disputeType" required>
-                                <option value="">Select type...</option>
-                                <option value="FRAUD">Fraud</option>
-                                <option value="MERCHANT">Merchant</option>
-                            </select>
+            <div class="row">
+                <!-- Main Form Column -->
+                <div class="col-lg-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Submit Dispute</h5>
                         </div>
+                        <div class="card-body">
+                            <form id="disputeForm">
+                                <div class="mb-3">
+                                    <label for="disputeType" class="form-label">Dispute Type</label>
+                                    <select class="form-select" id="disputeType" name="disputeType" required>
+                                        <option value="">Select type...</option>
+                                        <option value="FRAUD">Fraud</option>
+                                        <option value="MERCHANT">Merchant</option>
+                                    </select>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="transactionId" class="form-label">Transaction ID</label>
-                            <input type="text" class="form-control" id="transactionId" name="transactionId" required>
+                                <div class="mb-3">
+                                    <label for="transactionId" class="form-label">Transaction ID</label>
+                                    <input type="text" class="form-control" id="transactionId" name="transactionId" required>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="currency" class="form-label">Currency</label>
+                                        <input type="text" class="form-control" id="currency" name="currency" value="INR" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="merchantName" class="form-label">Merchant Name (for Merchant disputes)</label>
+                                    <input type="text" class="form-control" id="merchantName" name="merchantName">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="customerNote" class="form-label">Customer Note</label>
+                                    <textarea class="form-control" id="customerNote" name="customerNote" rows="3" required></textarea>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">Submit Dispute</button>
+                                </div>
+                            </form>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="amount" class="form-label">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                    <div class="text-center mt-4">
+                        <a href="/review" class="btn btn-outline-secondary">View Human Review Queue</a>
+                    </div>
+                </div>
+
+                <!-- Scenarios Sidebar Column -->
+                <div class="col-lg-3">
+                    <div class="scenario-sidebar">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">📋 Demo Scenarios</h6>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="currency" class="form-label">Currency</label>
-                                <input type="text" class="form-control" id="currency" name="currency" value="INR" required>
+                            <div class="card-body p-2">
+                                <button class="btn btn-outline-danger scenario-btn" onclick="loadScenario1()">
+                                    🚨 Scenario 1<br>
+                                    <small class="text-muted">Fraud Transaction</small>
+                                </button>
+                                <button class="btn btn-outline-warning scenario-btn" onclick="loadScenario2()">
+                                    📦 Scenario 2<br>
+                                    <small class="text-muted">Merchant Dispute</small>
+                                </button>
+                                <button class="btn btn-outline-success scenario-btn" onclick="loadScenario3()">
+                                    ✅ Scenario 3<br>
+                                    <small class="text-muted">Auto-Resolve Fraud</small>
+                                </button>
                             </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label for="merchantName" class="form-label">Merchant Name (for Merchant disputes)</label>
-                            <input type="text" class="form-control" id="merchantName" name="merchantName">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="customerNote" class="form-label">Customer Note</label>
-                            <textarea class="form-control" id="customerNote" name="customerNote" rows="3" required></textarea>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit Dispute</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="/review" class="btn btn-outline-secondary">View Human Review Queue</a>
             </div>
         </div>
     </div>
