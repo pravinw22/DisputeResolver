@@ -97,7 +97,21 @@ THINK → ACT → OBSERVE → THINK → ACT → OBSERVE → DECISION
 
 ## 🚀 Features
 
-### 1. Automated Dispute Resolution
+### 1. RAG-Enhanced Decision Making (NEW!)
+- **Retrieval-Augmented Generation**: Agents access historical knowledge for better decisions
+- **42 Knowledge Documents**: Policies, regulations, cases, fraud patterns, and merchant data
+- **Semantic Search**: Find relevant information using AI embeddings
+- **Citation-Based Reasoning**: Every decision cites specific cases, patterns, or policies
+- **Continuous Learning**: System improves as more data is added
+
+**Knowledge Bases:**
+- 📋 **6 Banking Policies**: Auto-approval thresholds, fraud scoring, merchant dispute rules
+- 📜 **8 Regulations**: RBI guidelines, consumer protection laws, compliance requirements
+- 📊 **10 Historical Cases**: Past dispute resolutions with outcomes and reasoning
+- 🔍 **10 Fraud Patterns**: Known fraud signatures with accuracy metrics
+- 🏪 **8 Merchant Profiles**: Reputation, dispute rates, delivery performance
+
+### 2. Automated Dispute Resolution
 - **Fraud Detection**: Automatically identifies and approves legitimate fraud claims
 - **Pattern Recognition**: Analyzes transaction patterns, locations, and customer behavior
 - **Risk Scoring**: Calculates fraud probability scores
@@ -120,12 +134,96 @@ THINK → ACT → OBSERVE → THINK → ACT → OBSERVE → DECISION
 - **Ollama**: Local LLM support for development/testing
 - **Easy Switching**: Toggle between providers via configuration
 
+### 5. Vector Database & Embeddings
+- **In-Memory Vector Store**: Fast semantic search using cosine similarity
+- **Local Embeddings**: all-MiniLM-L6-v2 model (384 dimensions, no API needed)
+- **Automatic Data Loading**: Knowledge base loaded on application startup
+- **42 Documents Indexed**: Policies, regulations, cases, patterns, merchants
+
+## 🧠 RAG Architecture
+
+The system uses Retrieval-Augmented Generation to enhance AI decision-making:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    RAG-Enhanced System                      │
+└─────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   Policies   │    │ Regulations  │    │   Cases      │
+│  (6 docs)    │    │  (8 docs)    │    │  (10 docs)   │
+└──────────────┘    └──────────────┘    └──────────────┘
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            │
+                            ▼
+                ┌───────────────────────┐
+                │  Embedding Service    │
+                │  (all-MiniLM-L6-v2)   │
+                └───────────────────────┘
+                            │
+                            ▼
+                ┌───────────────────────┐
+                │  Vector Store         │
+                │  (In-Memory, 42 docs) │
+                └───────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│    Fraud     │    │  Merchant    │    │ Compliance   │
+│  Detection   │    │   Context    │    │    Agent     │
+│  Agent+RAG   │    │  Agent+RAG   │    │   +RAG       │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
+
+**How RAG Works:**
+
+1. **Data Ingestion**: On startup, load 42 documents from JSON files
+2. **Embedding Generation**: Convert each document to 384-dim vector using local model
+3. **Vector Storage**: Store embeddings in in-memory vector database
+4. **Query Processing**: When agent needs context, generate query embedding
+5. **Semantic Search**: Find top-K similar documents using cosine similarity
+6. **Context Enhancement**: Inject retrieved documents into LLM prompt
+7. **Citation**: LLM response includes specific document IDs as citations
+
+**Example RAG Flow:**
+
+```
+User: "Dispute for ₹25,000 foreign transaction"
+    ↓
+FraudDetectionAgent: "Need fraud analysis"
+    ↓
+RAG Service: Search for similar cases
+    ↓
+Vector Store: Returns 3 similar cases (CASE-2025-001234, etc.)
+    ↓
+RAG Service: Search for fraud patterns
+    ↓
+Vector Store: Returns pattern FP-2025-042 (94.2% accuracy)
+    ↓
+RAG Service: Search for policies
+    ↓
+Vector Store: Returns POLICY-4.2.1 (auto-approval threshold)
+    ↓
+Enhanced Prompt: "Based on CASE-2025-001234, FP-2025-042, POLICY-4.2.1..."
+    ↓
+LLM: "Auto-approve. Similar to CASE-2025-001234 (92% fraud score)..."
+    ↓
+Decision: AUTO_APPROVED with citations
+```
+
 ## 📋 Prerequisites
 
 - **Java**: JDK 17 or higher
-- **Maven**: 3.6+ (or use included Maven wrapper)
+- **Maven**: 3.6+ (or use system Maven)
 - **Git**: For version control
 - **LLM Access**: Either Anthropic API key OR Ollama installed locally
+- **Memory**: Minimum 2GB RAM for embedding model (runs locally)
 
 ### LLM Setup Options
 
@@ -184,14 +282,37 @@ mvn clean install
 
 ### 4. Run the Application
 ```bash
-# Using Maven wrapper
-./mvnw spring-boot:run
-
-# Or using system Maven
+# Using system Maven
 mvn spring-boot:run
 
 # Or run the JAR directly
 java -jar target/dispute-management-demo-1.0.0.jar
+```
+
+**On Startup, RAG System Will:**
+- Load 6 banking policies
+- Load 8 regulations (RBI, Consumer Protection Act, IT Act)
+- Load 10 historical dispute cases
+- Load 10 fraud patterns
+- Load 8 merchant profiles
+- Generate embeddings for all 42 documents
+- Store in in-memory vector database
+
+**Expected Startup Logs:**
+```
+INFO com.demo.dispute.rag.RagDataLoader : Starting RAG data loading...
+INFO com.demo.dispute.rag.RagDataLoader : Loading policies...
+INFO com.demo.dispute.rag.RagDataLoader : Loaded 6 policies
+INFO com.demo.dispute.rag.RagDataLoader : Loading regulations...
+INFO com.demo.dispute.rag.RagDataLoader : Loaded 8 regulations
+INFO com.demo.dispute.rag.RagDataLoader : Loading historical cases...
+INFO com.demo.dispute.rag.RagDataLoader : Loaded 10 historical cases
+INFO com.demo.dispute.rag.RagDataLoader : Loading fraud patterns...
+INFO com.demo.dispute.rag.RagDataLoader : Loaded 10 fraud patterns
+INFO com.demo.dispute.rag.RagDataLoader : Loading merchant data...
+INFO com.demo.dispute.rag.RagDataLoader : Loaded 8 merchants
+INFO com.demo.dispute.rag.RagDataLoader : RAG data loading completed successfully!
+INFO com.demo.dispute.rag.RagDataLoader : {totalDocuments=42, categoryCounts={POLICY=6, REGULATION=8, FRAUD_PATTERN=10, CASE=10, MERCHANT=8}}
 ```
 
 ### 5. Access the Application
@@ -337,12 +458,12 @@ DisputeResolver/
 │   ├── main/
 │   │   ├── java/com/demo/dispute/
 │   │   │   ├── DisputeApplication.java          # Main Spring Boot app
-│   │   │   ├── agent/                           # AI Agents
+│   │   │   ├── agent/                           # AI Agents (RAG-Enhanced)
 │   │   │   │   ├── DisputeOrchestratorAgent.java
-│   │   │   │   ├── FraudDetectionAgent.java
+│   │   │   │   ├── FraudDetectionAgent.java     # ✨ RAG-enhanced
 │   │   │   │   ├── TransactionDataAgent.java
-│   │   │   │   ├── MerchantContextAgent.java
-│   │   │   │   └── ComplianceAgent.java
+│   │   │   │   ├── MerchantContextAgent.java    # ✨ RAG-enhanced
+│   │   │   │   └── ComplianceAgent.java         # ✨ RAG-enhanced
 │   │   │   ├── config/                          # Configuration
 │   │   │   │   ├── AnthropicConfig.java
 │   │   │   │   └── Prompts.java
@@ -359,6 +480,13 @@ DisputeResolver/
 │   │   │   │   ├── FraudSignals.java
 │   │   │   │   ├── MerchantContext.java
 │   │   │   │   └── TransactionData.java
+│   │   │   ├── rag/                             # ✨ RAG System (NEW!)
+│   │   │   │   ├── EmbeddingService.java        # Local embedding model
+│   │   │   │   ├── InMemoryVectorStore.java     # Vector database
+│   │   │   │   ├── RagService.java              # RAG orchestration
+│   │   │   │   ├── RagDataLoader.java           # Data ingestion
+│   │   │   │   ├── RagDocument.java             # Document model
+│   │   │   │   └── RagSearchResult.java         # Search result model
 │   │   │   ├── service/                         # Business Logic
 │   │   │   │   ├── DisputeService.java
 │   │   │   │   ├── ClaudeApiService.java
@@ -368,6 +496,12 @@ DisputeResolver/
 │   │   │       └── InMemoryDisputeStore.java
 │   │   └── resources/
 │   │       ├── application.properties           # App configuration
+│   │       ├── rag-data/                        # ✨ RAG Knowledge Base (NEW!)
+│   │       │   ├── policies.json                # 6 banking policies
+│   │       │   ├── regulations.json             # 8 regulations
+│   │       │   ├── historical-cases.json        # 10 past cases
+│   │       │   ├── fraud-patterns.json          # 10 fraud patterns
+│   │       │   └── merchants.json               # 8 merchant profiles
 │   │       ├── templates/                       # Thymeleaf templates
 │   │       │   ├── index.html
 │   │       │   ├── result.html
@@ -375,9 +509,10 @@ DisputeResolver/
 │   │       ├── UC4_Dispute_Management_Implementation_Spec.md
 │   │       └── DEMO_SCENARIOS.md
 │   └── test/
-├── pom.xml                                      # Maven dependencies
+├── pom.xml                                      # Maven dependencies (+ LangChain4j)
 ├── .gitignore
-└── README.md
+├── README.md
+└── RAG_FEASIBILITY_STUDY.md                     # ✨ RAG implementation guide
 ```
 
 ## 🔧 Configuration
@@ -487,25 +622,28 @@ curl http://localhost:8080/api/review/queue
 ## 🚧 Limitations & Future Enhancements
 
 ### Current Limitations
-- In-memory storage (no persistence)
-- Mock data for transactions and merchants
+- In-memory storage (no persistence for disputes and vector store)
+- Mock data for transactions
 - No real payment gateway integration
-- No real fraud detection algorithms
 - Limited to two dispute types
 - No batch processing
 - No analytics dashboard
+- Local embeddings only (no cloud-based alternatives yet)
 
 ### Planned Enhancements
-- [ ] Persistent database integration
+- [ ] Persistent database integration (PostgreSQL + pgvector)
+- [ ] Cloud vector database (Pinecone, Weaviate)
 - [ ] Real-time fraud detection APIs
 - [ ] Advanced analytics and reporting
 - [ ] Multi-language support
 - [ ] Email notifications
 - [ ] Webhook integrations
 - [ ] Batch dispute processing
-- [ ] Machine learning model integration
+- [ ] Fine-tuned embedding models
 - [ ] Performance monitoring
 - [ ] A/B testing framework
+- [ ] RAG feedback loop for continuous improvement
+- [ ] Hybrid search (vector + keyword)
 
 ## 🤝 Contributing
 
@@ -547,7 +685,9 @@ For questions or issues:
 - [Ollama Documentation](https://ollama.ai/docs)
 - [ReAct Pattern Paper](https://arxiv.org/abs/2210.03629)
 - [Thymeleaf Documentation](https://www.thymeleaf.org/)
+- [LangChain4j Documentation](https://docs.langchain4j.dev/)
+- [RAG Feasibility Study](RAG_FEASIBILITY_STUDY.md) - Detailed RAG implementation guide
 
 ---
 
-**Built with ❤️ using Spring Boot, AI Agents, and the ReAct Pattern**
+**Built with ❤️ using Spring Boot, AI Agents, RAG, and the ReAct Pattern**

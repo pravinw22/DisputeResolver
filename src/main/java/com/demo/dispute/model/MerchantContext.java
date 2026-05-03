@@ -8,17 +8,24 @@ public class MerchantContext {
     private double disputeRate;
     private List<String> disputeHistory;
     private String riskLevel;
+    private String deliveryStatus;
+    private String lastKnownDeliveryAttempt;
+    private String ragContext;
 
     public MerchantContext() {
     }
 
     public MerchantContext(String merchantName, String merchantCategory, double disputeRate,
-                           List<String> disputeHistory, String riskLevel) {
+                           List<String> disputeHistory, String riskLevel, String deliveryStatus,
+                           String lastKnownDeliveryAttempt, String ragContext) {
         this.merchantName = merchantName;
         this.merchantCategory = merchantCategory;
         this.disputeRate = disputeRate;
         this.disputeHistory = disputeHistory;
         this.riskLevel = riskLevel;
+        this.deliveryStatus = deliveryStatus;
+        this.lastKnownDeliveryAttempt = lastKnownDeliveryAttempt;
+        this.ragContext = ragContext;
     }
 
     public static MerchantContextBuilder builder() {
@@ -65,12 +72,39 @@ public class MerchantContext {
         this.riskLevel = riskLevel;
     }
 
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public String getLastKnownDeliveryAttempt() {
+        return lastKnownDeliveryAttempt;
+    }
+
+    public void setLastKnownDeliveryAttempt(String lastKnownDeliveryAttempt) {
+        this.lastKnownDeliveryAttempt = lastKnownDeliveryAttempt;
+    }
+
+    public String getRagContext() {
+        return ragContext;
+    }
+
+    public void setRagContext(String ragContext) {
+        this.ragContext = ragContext;
+    }
+
     public static class MerchantContextBuilder {
         private String merchantName;
         private String merchantCategory;
         private double disputeRate;
         private List<String> disputeHistory;
         private String riskLevel;
+        private String deliveryStatus;
+        private String lastKnownDeliveryAttempt;
+        private String ragContext;
 
         public MerchantContextBuilder merchantName(String merchantName) {
             this.merchantName = merchantName;
@@ -98,18 +132,24 @@ public class MerchantContext {
         }
 
         public MerchantContextBuilder deliveryStatus(String deliveryStatus) {
-            // This is a placeholder for compatibility - not stored in the model
+            this.deliveryStatus = deliveryStatus;
             return this;
         }
 
         public MerchantContextBuilder lastKnownDeliveryAttempt(String lastKnownDeliveryAttempt) {
-            // Placeholder for compatibility - not stored in the model
+            this.lastKnownDeliveryAttempt = lastKnownDeliveryAttempt;
+            return this;
+        }
+
+        public MerchantContextBuilder ragContext(String ragContext) {
+            this.ragContext = ragContext;
             return this;
         }
 
         public MerchantContext build() {
             return new MerchantContext(merchantName, merchantCategory, disputeRate, 
-                                       disputeHistory, riskLevel);
+                                       disputeHistory, riskLevel, deliveryStatus,
+                                       lastKnownDeliveryAttempt, ragContext);
         }
     }
 }

@@ -1,0 +1,392 @@
+[
+  {
+    "merchantId": "MERCH-QS-001",
+    "name": "QuickShop India",
+    "category": "E-commerce",
+    "registrationDate": "2023-06-15",
+    "totalTransactions": 45678,
+    "totalDisputeCount": 2284,
+    "disputeRate": 0.05,
+    "riskLevel": "MEDIUM",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-002341",
+        "date": "2025-03-10",
+        "issue": "Item not delivered",
+        "resolution": "REFUNDED",
+        "resolutionTime": "5 seconds",
+        "customerSatisfaction": 4
+      },
+      {
+        "caseId": "CASE-2025-001876",
+        "date": "2025-02-25",
+        "issue": "Item not delivered (disputed)",
+        "resolution": "APPROVED_AFTER_REVIEW",
+        "resolutionTime": "2 days",
+        "customerSatisfaction": 3
+      },
+      {
+        "caseId": "CASE-2025-000543",
+        "date": "2025-01-18",
+        "issue": "Wrong item delivered",
+        "resolution": "REFUNDED",
+        "resolutionTime": "1 day",
+        "customerSatisfaction": 4
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.78,
+      "averageDelay": "4.2 days",
+      "trackingAccuracy": 0.85,
+      "deliverySuccessRate": 0.92
+    },
+    "customerReviews": {
+      "averageRating": 3.5,
+      "totalReviews": 12456,
+      "commonComplaints": [
+        "Delayed delivery",
+        "Poor packaging",
+        "Unresponsive customer service"
+      ]
+    },
+    "notes": "Frequent delivery delays. 2 prior 'not delivered' disputes in Q1 2025. Merchant needs to improve delivery tracking and customer communication."
+  },
+  {
+    "merchantId": "MERCH-TG-002",
+    "name": "TechGadgets Pro",
+    "category": "Electronics",
+    "registrationDate": "2022-03-20",
+    "totalTransactions": 89234,
+    "totalDisputeCount": 1785,
+    "disputeRate": 0.02,
+    "riskLevel": "LOW",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-002789",
+        "date": "2025-03-20",
+        "issue": "Defective product",
+        "resolution": "APPROVED_AFTER_REVIEW",
+        "resolutionTime": "5 days",
+        "customerSatisfaction": 4
+      },
+      {
+        "caseId": "CASE-2024-008765",
+        "date": "2024-11-12",
+        "issue": "Wrong model delivered",
+        "resolution": "REFUNDED",
+        "resolutionTime": "3 days",
+        "customerSatisfaction": 5
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.94,
+      "averageDelay": "1.2 days",
+      "trackingAccuracy": 0.96,
+      "deliverySuccessRate": 0.98
+    },
+    "customerReviews": {
+      "averageRating": 4.5,
+      "totalReviews": 23456,
+      "commonComplaints": [
+        "Occasional defective products",
+        "Slow refund process"
+      ]
+    },
+    "notes": "Reliable merchant with low dispute rate. Good delivery performance. Occasional quality issues but responsive to complaints."
+  },
+  {
+    "merchantId": "MERCH-FD-003",
+    "name": "FastDelivery Mart",
+    "category": "Grocery & Daily Needs",
+    "registrationDate": "2023-09-10",
+    "totalTransactions": 123456,
+    "totalDisputeCount": 3704,
+    "disputeRate": 0.03,
+    "riskLevel": "LOW",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-003890",
+        "date": "2025-04-08",
+        "issue": "Wrong item delivered",
+        "resolution": "AUTO_APPROVED",
+        "resolutionTime": "6 seconds",
+        "customerSatisfaction": 4
+      },
+      {
+        "caseId": "CASE-2025-002134",
+        "date": "2025-02-15",
+        "issue": "Missing items",
+        "resolution": "REFUNDED",
+        "resolutionTime": "1 day",
+        "customerSatisfaction": 3
+      },
+      {
+        "caseId": "CASE-2024-009876",
+        "date": "2024-12-20",
+        "issue": "Expired products",
+        "resolution": "REFUNDED",
+        "resolutionTime": "2 days",
+        "customerSatisfaction": 2
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.89,
+      "averageDelay": "2.5 days",
+      "trackingAccuracy": 0.91,
+      "deliverySuccessRate": 0.95
+    },
+    "customerReviews": {
+      "averageRating": 4.0,
+      "totalReviews": 34567,
+      "commonComplaints": [
+        "Wrong items occasionally",
+        "Quality control issues",
+        "Packaging problems"
+      ]
+    },
+    "notes": "High volume merchant with acceptable dispute rate. Occasional picking errors. Generally responsive to complaints."
+  },
+  {
+    "merchantId": "MERCH-LF-004",
+    "name": "LuxuryFashion Boutique",
+    "category": "Fashion & Apparel",
+    "registrationDate": "2021-11-05",
+    "totalTransactions": 34567,
+    "totalDisputeCount": 346,
+    "disputeRate": 0.01,
+    "riskLevel": "LOW",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-001234",
+        "date": "2025-01-22",
+        "issue": "Size mismatch",
+        "resolution": "REFUNDED",
+        "resolutionTime": "4 days",
+        "customerSatisfaction": 5
+      },
+      {
+        "caseId": "CASE-2024-007654",
+        "date": "2024-10-08",
+        "issue": "Color different from photo",
+        "resolution": "REFUNDED",
+        "resolutionTime": "3 days",
+        "customerSatisfaction": 4
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.96,
+      "averageDelay": "0.8 days",
+      "trackingAccuracy": 0.98,
+      "deliverySuccessRate": 0.99
+    },
+    "customerReviews": {
+      "averageRating": 4.7,
+      "totalReviews": 8765,
+      "commonComplaints": [
+        "Sizing inconsistencies",
+        "High prices"
+      ]
+    },
+    "notes": "Premium merchant with excellent track record. Very low dispute rate. High customer satisfaction. Responsive customer service."
+  },
+  {
+    "merchantId": "MERCH-BD-005",
+    "name": "BudgetDeals Store",
+    "category": "General Merchandise",
+    "registrationDate": "2024-01-15",
+    "totalTransactions": 67890,
+    "totalDisputeCount": 5431,
+    "disputeRate": 0.08,
+    "riskLevel": "HIGH",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-004567",
+        "date": "2025-04-15",
+        "issue": "Item not as described",
+        "resolution": "ESCALATED_TO_HUMAN",
+        "resolutionTime": "7 days",
+        "customerSatisfaction": 2
+      },
+      {
+        "caseId": "CASE-2025-003456",
+        "date": "2025-03-28",
+        "issue": "Poor quality product",
+        "resolution": "REFUNDED",
+        "resolutionTime": "5 days",
+        "customerSatisfaction": 3
+      },
+      {
+        "caseId": "CASE-2025-002345",
+        "date": "2025-02-10",
+        "issue": "Item not delivered",
+        "resolution": "REFUNDED",
+        "resolutionTime": "10 days",
+        "customerSatisfaction": 2
+      },
+      {
+        "caseId": "CASE-2025-001234",
+        "date": "2025-01-05",
+        "issue": "Counterfeit product",
+        "resolution": "APPROVED_AFTER_REVIEW",
+        "resolutionTime": "14 days",
+        "customerSatisfaction": 1
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.65,
+      "averageDelay": "6.8 days",
+      "trackingAccuracy": 0.72,
+      "deliverySuccessRate": 0.85
+    },
+    "customerReviews": {
+      "averageRating": 2.8,
+      "totalReviews": 15678,
+      "commonComplaints": [
+        "Poor quality products",
+        "Misleading descriptions",
+        "Very slow delivery",
+        "Unresponsive customer service",
+        "Difficult returns"
+      ]
+    },
+    "notes": "HIGH RISK merchant. Dispute rate 8% exceeds threshold. Multiple quality and delivery issues. Under review for potential suspension. Auto-approve customer claims."
+  },
+  {
+    "merchantId": "MERCH-HE-006",
+    "name": "HealthEssentials Pharmacy",
+    "category": "Healthcare & Wellness",
+    "registrationDate": "2022-07-20",
+    "totalTransactions": 156789,
+    "totalDisputeCount": 1568,
+    "disputeRate": 0.01,
+    "riskLevel": "LOW",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-002456",
+        "date": "2025-03-05",
+        "issue": "Wrong medicine delivered",
+        "resolution": "ESCALATED_TO_HUMAN",
+        "resolutionTime": "1 day",
+        "customerSatisfaction": 5
+      },
+      {
+        "caseId": "CASE-2024-009123",
+        "date": "2024-11-18",
+        "issue": "Expired product",
+        "resolution": "REFUNDED",
+        "resolutionTime": "2 days",
+        "customerSatisfaction": 4
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.97,
+      "averageDelay": "0.5 days",
+      "trackingAccuracy": 0.99,
+      "deliverySuccessRate": 0.99
+    },
+    "customerReviews": {
+      "averageRating": 4.8,
+      "totalReviews": 45678,
+      "commonComplaints": [
+        "Occasional stock issues",
+        "Prescription verification delays"
+      ]
+    },
+    "notes": "Excellent merchant with very low dispute rate. Critical category (healthcare) handled with care. Fast delivery. High customer trust."
+  },
+  {
+    "merchantId": "MERCH-BK-007",
+    "name": "BookWorld Online",
+    "category": "Books & Media",
+    "registrationDate": "2020-05-12",
+    "totalTransactions": 234567,
+    "totalDisputeCount": 2346,
+    "disputeRate": 0.01,
+    "riskLevel": "LOW",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-001789",
+        "date": "2025-02-14",
+        "issue": "Damaged book received",
+        "resolution": "REFUNDED",
+        "resolutionTime": "3 days",
+        "customerSatisfaction": 4
+      },
+      {
+        "caseId": "CASE-2024-008901",
+        "date": "2024-12-03",
+        "issue": "Wrong edition delivered",
+        "resolution": "REFUNDED",
+        "resolutionTime": "4 days",
+        "customerSatisfaction": 5
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.93,
+      "averageDelay": "1.8 days",
+      "trackingAccuracy": 0.95,
+      "deliverySuccessRate": 0.97
+    },
+    "customerReviews": {
+      "averageRating": 4.6,
+      "totalReviews": 67890,
+      "commonComplaints": [
+        "Packaging could be better",
+        "Occasional stock delays"
+      ]
+    },
+    "notes": "Established merchant with excellent reputation. Very low dispute rate. Good delivery performance. Responsive to customer issues."
+  },
+  {
+    "merchantId": "MERCH-FS-008",
+    "name": "FreshFarm Organics",
+    "category": "Fresh Produce",
+    "registrationDate": "2023-04-08",
+    "totalTransactions": 98765,
+    "totalDisputeCount": 2963,
+    "disputeRate": 0.03,
+    "riskLevel": "LOW",
+    "disputeHistory": [
+      {
+        "caseId": "CASE-2025-003678",
+        "date": "2025-04-02",
+        "issue": "Spoiled produce",
+        "resolution": "REFUNDED",
+        "resolutionTime": "1 day",
+        "customerSatisfaction": 3
+      },
+      {
+        "caseId": "CASE-2025-002567",
+        "date": "2025-03-12",
+        "issue": "Missing items",
+        "resolution": "REFUNDED",
+        "resolutionTime": "1 day",
+        "customerSatisfaction": 4
+      },
+      {
+        "caseId": "CASE-2025-001456",
+        "date": "2025-01-28",
+        "issue": "Poor quality vegetables",
+        "resolution": "REFUNDED",
+        "resolutionTime": "2 days",
+        "customerSatisfaction": 3
+      }
+    ],
+    "deliveryPerformance": {
+      "onTimeRate": 0.91,
+      "averageDelay": "1.5 days",
+      "trackingAccuracy": 0.93,
+      "deliverySuccessRate": 0.96
+    },
+    "customerReviews": {
+      "averageRating": 4.2,
+      "totalReviews": 28901,
+      "commonComplaints": [
+        "Quality varies",
+        "Occasional freshness issues",
+        "Substitutions without notice"
+      ]
+    },
+    "notes": "Fresh produce merchant with acceptable dispute rate. Quality control challenges inherent to category. Generally responsive to complaints."
+  }
+]

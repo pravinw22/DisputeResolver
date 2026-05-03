@@ -1,0 +1,192 @@
+[
+  {
+    "patternId": "FP-2025-042",
+    "name": "Foreign Transaction Fraud",
+    "description": "Unauthorized transactions in foreign countries with no travel history",
+    "indicators": [
+      "Transaction in country with no prior history",
+      "Amount 2-5x typical spending",
+      "Card-not-present transaction",
+      "No travel alerts or notifications",
+      "Transaction outside usual geographic pattern"
+    ],
+    "riskLevel": "HIGH",
+    "recommendedAction": "AUTO_APPROVE",
+    "historicalAccuracy": 94.2,
+    "falsePositiveRate": 2.1,
+    "totalCases": 1247,
+    "successfulDetections": 1175,
+    "lastUpdated": "2025-04-15"
+  },
+  {
+    "patternId": "FP-2025-038",
+    "name": "Card Cloning Pattern",
+    "description": "Multiple rapid transactions indicating card cloning",
+    "indicators": [
+      "Multiple transactions in < 1 hour",
+      "Transactions in different locations",
+      "Unusual merchant categories",
+      "High-value purchases",
+      "Card-present and card-not-present mix"
+    ],
+    "riskLevel": "CRITICAL",
+    "recommendedAction": "AUTO_APPROVE",
+    "historicalAccuracy": 97.8,
+    "falsePositiveRate": 0.8,
+    "totalCases": 892,
+    "successfulDetections": 872,
+    "lastUpdated": "2025-04-10"
+  },
+  {
+    "patternId": "FP-2025-051",
+    "name": "Phishing Attack Pattern",
+    "description": "Transactions following reported phishing attempts",
+    "indicators": [
+      "Customer reported phishing email/SMS",
+      "Transaction within 24 hours of phishing report",
+      "Unusual merchant or website",
+      "High-value transaction",
+      "Customer denies authorization"
+    ],
+    "riskLevel": "HIGH",
+    "recommendedAction": "AUTO_APPROVE",
+    "historicalAccuracy": 91.5,
+    "falsePositiveRate": 3.2,
+    "totalCases": 634,
+    "successfulDetections": 580,
+    "lastUpdated": "2025-04-20"
+  },
+  {
+    "patternId": "FP-2025-029",
+    "name": "Account Takeover Pattern",
+    "description": "Unauthorized access and transactions from compromised accounts",
+    "indicators": [
+      "Login from new device/location",
+      "Password change followed by transaction",
+      "Contact information update",
+      "Large fund transfer",
+      "Unusual transaction pattern"
+    ],
+    "riskLevel": "CRITICAL",
+    "recommendedAction": "AUTO_APPROVE",
+    "historicalAccuracy": 96.3,
+    "falsePositiveRate": 1.5,
+    "totalCases": 456,
+    "successfulDetections": 439,
+    "lastUpdated": "2025-03-28"
+  },
+  {
+    "patternId": "FP-2025-067",
+    "name": "Cryptocurrency Fraud Pattern",
+    "description": "Unauthorized cryptocurrency purchases or transfers",
+    "indicators": [
+      "First-time cryptocurrency transaction",
+      "High-value crypto purchase",
+      "Multiple crypto exchanges in short time",
+      "Customer unfamiliar with crypto",
+      "Transaction at unusual time"
+    ],
+    "riskLevel": "HIGH",
+    "recommendedAction": "AUTO_APPROVE",
+    "historicalAccuracy": 89.7,
+    "falsePositiveRate": 4.5,
+    "totalCases": 523,
+    "successfulDetections": 469,
+    "lastUpdated": "2025-04-18"
+  },
+  {
+    "patternId": "FP-2025-015",
+    "name": "ATM Skimming Pattern",
+    "description": "Card data stolen via ATM skimming devices",
+    "indicators": [
+      "ATM withdrawal in foreign location",
+      "Multiple ATM withdrawals in succession",
+      "Maximum withdrawal amounts",
+      "Customer reports card never left possession",
+      "Transactions at known skimming locations"
+    ],
+    "riskLevel": "HIGH",
+    "recommendedAction": "AUTO_APPROVE",
+    "historicalAccuracy": 93.1,
+    "falsePositiveRate": 2.8,
+    "totalCases": 789,
+    "successfulDetections": 735,
+    "lastUpdated": "2025-04-05"
+  },
+  {
+    "patternId": "FP-2025-083",
+    "name": "Social Engineering Fraud",
+    "description": "Transactions resulting from social engineering attacks",
+    "indicators": [
+      "Customer received suspicious call/email",
+      "Shared OTP or card details",
+      "Transaction to unfamiliar beneficiary",
+      "Customer reports being tricked",
+      "Transaction shortly after suspicious contact"
+    ],
+    "riskLevel": "MEDIUM",
+    "recommendedAction": "ESCALATE_TO_HUMAN",
+    "historicalAccuracy": 78.4,
+    "falsePositiveRate": 8.9,
+    "totalCases": 1034,
+    "successfulDetections": 811,
+    "lastUpdated": "2025-04-22"
+  },
+  {
+    "patternId": "FP-2025-094",
+    "name": "E-commerce Fraud Pattern",
+    "description": "Fraudulent online shopping transactions",
+    "indicators": [
+      "First-time merchant transaction",
+      "High-value e-commerce purchase",
+      "Shipping to different address",
+      "Multiple failed payment attempts",
+      "Suspicious merchant website"
+    ],
+    "riskLevel": "MEDIUM",
+    "recommendedAction": "REVIEW_REQUIRED",
+    "historicalAccuracy": 82.6,
+    "falsePositiveRate": 6.7,
+    "totalCases": 945,
+    "successfulDetections": 781,
+    "lastUpdated": "2025-04-12"
+  },
+  {
+    "patternId": "FP-2025-106",
+    "name": "Subscription Fraud Pattern",
+    "description": "Unauthorized recurring subscription charges",
+    "indicators": [
+      "Recurring charges customer doesn't recognize",
+      "Small initial charge followed by larger amounts",
+      "Foreign subscription services",
+      "Customer never signed up for service",
+      "Difficult to cancel subscription"
+    ],
+    "riskLevel": "LOW",
+    "recommendedAction": "REVIEW_REQUIRED",
+    "historicalAccuracy": 75.3,
+    "falsePositiveRate": 12.4,
+    "totalCases": 1567,
+    "successfulDetections": 1180,
+    "lastUpdated": "2025-04-25"
+  },
+  {
+    "patternId": "FP-2025-118",
+    "name": "Travel Booking Fraud",
+    "description": "Fraudulent airline or hotel bookings",
+    "indicators": [
+      "High-value travel booking",
+      "Booking for immediate travel",
+      "International destination",
+      "Customer has no travel plans",
+      "Booking through unfamiliar website"
+    ],
+    "riskLevel": "MEDIUM",
+    "recommendedAction": "REVIEW_REQUIRED",
+    "historicalAccuracy": 85.9,
+    "falsePositiveRate": 5.3,
+    "totalCases": 678,
+    "successfulDetections": 582,
+    "lastUpdated": "2025-04-08"
+  }
+]

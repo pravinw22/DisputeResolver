@@ -1,0 +1,56 @@
+[
+  {
+    "id": "POLICY-4.2.1",
+    "title": "Fraud Dispute Auto-Approval Policy",
+    "category": "FRAUD",
+    "content": "Auto-Approval Threshold: Fraud score ≥ 80/100\n\nConditions for Auto-Approval:\n1. Transaction in foreign location with no travel history\n2. Amount exceeds customer's typical spending by 3x or more\n3. No prior fraud claims in last 12 months\n4. Card not reported lost or stolen\n5. Transaction occurred outside customer's usual geographic pattern\n\nEscalation Required When:\n- Amount > ₹100,000\n- Customer has 2+ fraud claims in 6 months\n- Merchant is on watchlist\n- Transaction involves cryptocurrency or high-risk categories",
+    "version": "2.1",
+    "effectiveDate": "2025-01-01",
+    "lastUpdated": "2025-03-15"
+  },
+  {
+    "id": "POLICY-4.2.2",
+    "title": "Fraud Score Calculation Guidelines",
+    "category": "FRAUD",
+    "content": "Fraud Score Components:\n\n1. Location Risk (0-30 points):\n   - Foreign country with no travel history: +25 points\n   - High-risk country: +30 points\n   - Unusual domestic location: +15 points\n\n2. Amount Risk (0-25 points):\n   - 3-5x typical spending: +15 points\n   - 5-10x typical spending: +20 points\n   - >10x typical spending: +25 points\n\n3. Timing Risk (0-20 points):\n   - Multiple transactions in <1 hour: +20 points\n   - Transaction at unusual time: +10 points\n\n4. Pattern Risk (0-25 points):\n   - Matches known fraud pattern: +25 points\n   - Similar to recent fraud cases: +15 points\n\nTotal Score = Sum of all components (0-100)",
+    "version": "1.5",
+    "effectiveDate": "2024-06-01",
+    "lastUpdated": "2025-02-20"
+  },
+  {
+    "id": "POLICY-5.3.2",
+    "title": "Merchant Dispute Resolution Policy",
+    "category": "MERCHANT",
+    "content": "Merchant Dispute Handling:\n\n1. Delivery Confirmation Required:\n   - All merchant disputes must verify delivery status\n   - Tracking number must be validated\n   - Delivery confirmation from courier required\n\n2. Auto-Approval Conditions:\n   - Merchant has 2+ similar unresolved disputes in last 90 days\n   - Delivery not confirmed after 14 days\n   - Merchant dispute rate > 5%\n   - Customer provided evidence of non-delivery\n\n3. Escalation Required:\n   - Amount > ₹50,000\n   - Merchant disputes the claim with evidence\n   - Delivery shows as completed but customer denies\n   - Premium merchant (dispute rate < 1%)",
+    "version": "3.0",
+    "effectiveDate": "2025-02-01",
+    "lastUpdated": "2025-04-10"
+  },
+  {
+    "id": "POLICY-5.3.4",
+    "title": "Merchant Reputation-Based Decisions",
+    "category": "MERCHANT",
+    "content": "Merchant Risk Assessment:\n\n1. Low Risk Merchants (Dispute Rate < 1%):\n   - Require strong evidence from customer\n   - Extended investigation period (21 days)\n   - Merchant given benefit of doubt\n\n2. Medium Risk Merchants (Dispute Rate 1-5%):\n   - Standard investigation (14 days)\n   - Balanced approach\n   - Auto-approve if 2+ similar disputes\n\n3. High Risk Merchants (Dispute Rate > 5%):\n   - Fast-track customer claims (7 days)\n   - Auto-approve with minimal evidence\n   - Consider merchant suspension\n\n4. Watchlist Merchants:\n   - Immediate auto-approval for customer\n   - Merchant account review triggered\n   - No provisional credit delay",
+    "version": "2.3",
+    "effectiveDate": "2024-09-01",
+    "lastUpdated": "2025-03-25"
+  },
+  {
+    "id": "POLICY-6.1.1",
+    "title": "Dispute Timeline Requirements",
+    "category": "GENERAL",
+    "content": "Dispute Processing Timelines:\n\n1. Acknowledgment: Within 24 hours of submission\n2. Initial Review: Within 3 business days\n3. Investigation: 7-30 days depending on complexity\n4. Final Decision: Within 30 days maximum\n5. Appeal Period: 15 days from decision notification\n\nProvisional Credit:\n- Must be issued within 10 business days for fraud claims\n- Within 14 days for merchant disputes\n- Amount: Full disputed amount\n- Reversal only if investigation proves customer fault",
+    "version": "1.8",
+    "effectiveDate": "2024-01-01",
+    "lastUpdated": "2025-01-15"
+  },
+  {
+    "id": "POLICY-7.2.1",
+    "title": "Customer Protection Standards",
+    "category": "GENERAL",
+    "content": "Customer Rights and Protections:\n\n1. Zero Liability for Fraud:\n   - Customer not liable for unauthorized transactions\n   - Applies if reported within 60 days\n   - No liability if card not physically compromised\n\n2. Dispute Rights:\n   - Right to dispute within 60 days of transaction\n   - Right to provisional credit during investigation\n   - Right to appeal decision within 15 days\n   - Right to escalate to ombudsman after 30 days\n\n3. Communication Requirements:\n   - Written explanation for all rejections\n   - Regular status updates every 7 days\n   - Final decision in writing with appeal instructions",
+    "version": "2.0",
+    "effectiveDate": "2024-03-01",
+    "lastUpdated": "2025-02-28"
+  }
+]

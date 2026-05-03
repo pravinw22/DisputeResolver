@@ -1,0 +1,82 @@
+[
+  {
+    "id": "RBI-4.2",
+    "title": "RBI Guidelines on Dispute Resolution Timeline",
+    "authority": "Reserve Bank of India",
+    "category": "TIMELINE",
+    "content": "Dispute Resolution Timeline Requirements:\n\n1. Acknowledgment: Banks must acknowledge customer disputes within 24 hours of receipt\n2. Investigation Period: Maximum 30 days for dispute investigation\n3. Provisional Credit: Must be issued within 10 business days for fraud claims\n4. Final Decision: Must be communicated within 30 days with detailed reasoning\n5. Appeal Process: Customer has right to appeal within 15 days of decision\n\nPenalties for Non-Compliance:\n- ₹10,000 per day for delays beyond 30 days\n- Customer entitled to compensation for undue delays\n- Regulatory action for repeated violations",
+    "reference": "RBI/2024-25/123",
+    "effectiveDate": "2024-04-01",
+    "lastUpdated": "2025-01-10"
+  },
+  {
+    "id": "RBI-5.1",
+    "title": "RBI Guidelines on Provisional Credit",
+    "authority": "Reserve Bank of India",
+    "category": "CREDIT",
+    "content": "Provisional Credit Requirements:\n\n1. Fraud Claims:\n   - Provisional credit within 10 business days\n   - Full disputed amount must be credited\n   - Interest on delayed credit at savings rate\n\n2. Merchant Disputes:\n   - Provisional credit within 14 business days\n   - Applies to disputes > ₹5,000\n   - Customer must provide basic evidence\n\n3. Reversal Conditions:\n   - Only if investigation proves customer fault\n   - Must provide 7 days notice before reversal\n   - Customer has right to appeal reversal\n\n4. Documentation:\n   - All provisional credits must be documented\n   - Audit trail required for 7 years\n   - Monthly reporting to RBI",
+    "reference": "RBI/2024-25/156",
+    "effectiveDate": "2024-06-01",
+    "lastUpdated": "2025-02-15"
+  },
+  {
+    "id": "RBI-6.3",
+    "title": "RBI Zero Liability Framework",
+    "authority": "Reserve Bank of India",
+    "category": "LIABILITY",
+    "content": "Customer Liability for Unauthorized Transactions:\n\n1. Zero Liability Conditions:\n   - Customer reports within 3 days: Zero liability\n   - Customer reports within 4-7 days: Liability up to transaction amount or ₹10,000 (whichever is lower)\n   - Customer reports after 7 days: Liability as per bank policy\n\n2. Exceptions (Customer Always Protected):\n   - Contributory fraud by bank/merchant/service provider\n   - Deficiency in bank's security systems\n   - Third-party breach where customer not at fault\n\n3. Reporting Requirements:\n   - Banks must provide 24/7 reporting channels\n   - Immediate card blocking facility\n   - SMS/email alerts for all transactions\n\n4. Burden of Proof:\n   - Bank must prove customer negligence\n   - Customer assumed not liable unless proven otherwise",
+    "reference": "RBI/2024-25/089",
+    "effectiveDate": "2024-01-01",
+    "lastUpdated": "2024-12-20"
+  },
+  {
+    "id": "CPA-12",
+    "title": "Consumer Protection Act - Right to Appeal",
+    "authority": "Ministry of Consumer Affairs",
+    "category": "APPEAL",
+    "content": "Consumer Rights in Financial Disputes:\n\n1. Right to Appeal:\n   - Customer can appeal bank decision within 15 days\n   - Appeal must be heard by senior authority\n   - Decision on appeal within 30 days\n\n2. Escalation Path:\n   - Level 1: Bank's internal grievance officer (15 days)\n   - Level 2: Banking Ombudsman (30 days)\n   - Level 3: Consumer Court (90 days)\n\n3. Compensation Rights:\n   - Mental agony compensation up to ₹1,00,000\n   - Litigation costs reimbursement\n   - Interest on delayed refunds\n\n4. Documentation Requirements:\n   - Bank must maintain complete audit trail\n   - All communications must be in writing\n   - Customer entitled to copies of all documents",
+    "reference": "CPA/2019/Section-12",
+    "effectiveDate": "2020-07-20",
+    "lastUpdated": "2024-08-15"
+  },
+  {
+    "id": "RBI-7.4",
+    "title": "RBI Guidelines on Fraud Classification",
+    "authority": "Reserve Bank of India",
+    "category": "FRAUD",
+    "content": "Fraud Classification and Reporting:\n\n1. Fraud Categories:\n   - Card Not Present (CNP) Fraud\n   - Card Present Fraud\n   - Account Takeover Fraud\n   - Social Engineering Fraud\n   - Merchant Fraud\n\n2. Reporting Thresholds:\n   - All frauds > ₹1,00,000: Report to RBI within 24 hours\n   - Frauds ₹25,000-₹1,00,000: Weekly reporting\n   - Frauds < ₹25,000: Monthly reporting\n\n3. Investigation Requirements:\n   - Police complaint for frauds > ₹50,000\n   - Internal investigation for all cases\n   - Forensic audit for frauds > ₹10,00,000\n\n4. Customer Protection:\n   - Customer not liable if bank security breach\n   - Immediate card blocking on report\n   - Provisional credit during investigation",
+    "reference": "RBI/2024-25/201",
+    "effectiveDate": "2024-09-01",
+    "lastUpdated": "2025-03-05"
+  },
+  {
+    "id": "RBI-8.2",
+    "title": "RBI Guidelines on Merchant Chargebacks",
+    "authority": "Reserve Bank of India",
+    "category": "CHARGEBACK",
+    "content": "Merchant Chargeback Process:\n\n1. Chargeback Initiation:\n   - Customer can initiate within 60 days of transaction\n   - Bank must process within 7 days\n   - Merchant notified within 3 days\n\n2. Merchant Response Time:\n   - 14 days to provide evidence\n   - Extension up to 21 days with valid reason\n   - Auto-chargeback if no response\n\n3. Evidence Requirements:\n   - Proof of delivery with signature\n   - Tracking information\n   - Customer communication records\n   - Terms and conditions acceptance\n\n4. Dispute Resolution:\n   - Bank reviews evidence within 7 days\n   - Decision communicated to both parties\n   - Appeal process available for 15 days\n\n5. Merchant Penalties:\n   - Chargeback rate > 1%: Warning\n   - Chargeback rate > 2%: Fines applicable\n   - Chargeback rate > 5%: Account suspension",
+    "reference": "RBI/2024-25/178",
+    "effectiveDate": "2024-10-01",
+    "lastUpdated": "2025-02-28"
+  },
+  {
+    "id": "IT-ACT-43",
+    "title": "IT Act - Electronic Transaction Security",
+    "authority": "Ministry of Electronics and IT",
+    "category": "SECURITY",
+    "content": "Security Requirements for Electronic Transactions:\n\n1. Two-Factor Authentication:\n   - Mandatory for all online transactions > ₹5,000\n   - OTP validity: Maximum 10 minutes\n   - Biometric authentication for high-value transactions\n\n2. Data Protection:\n   - Customer data encryption mandatory\n   - PCI-DSS compliance required\n   - Regular security audits\n\n3. Liability for Security Breach:\n   - Service provider liable for security failures\n   - Customer not liable if breach proven\n   - Compensation for data breach victims\n\n4. Audit Trail Requirements:\n   - All transactions logged with timestamps\n   - Logs maintained for 7 years\n   - Tamper-proof logging systems\n\n5. Penalties:\n   - Up to ₹5 crore for data breaches\n   - Criminal liability for willful negligence\n   - License cancellation for repeated violations",
+    "reference": "IT-ACT/2000/Section-43",
+    "effectiveDate": "2021-01-01",
+    "lastUpdated": "2024-11-20"
+  },
+  {
+    "id": "RBI-9.1",
+    "title": "RBI Guidelines on Customer Grievance Redressal",
+    "authority": "Reserve Bank of India",
+    "category": "GRIEVANCE",
+    "content": "Customer Grievance Redressal Mechanism:\n\n1. Internal Grievance Officer:\n   - Every bank must appoint dedicated officer\n   - Contact details prominently displayed\n   - Response within 7 working days\n\n2. Escalation Matrix:\n   - Level 1: Branch Manager (7 days)\n   - Level 2: Regional Manager (15 days)\n   - Level 3: Principal Nodal Officer (30 days)\n   - Level 4: Banking Ombudsman (30 days)\n\n3. Communication Requirements:\n   - Acknowledgment within 24 hours\n   - Status updates every 7 days\n   - Final decision in writing with reasons\n   - Appeal rights clearly mentioned\n\n4. Compensation Framework:\n   - ₹100 per day for delays beyond timeline\n   - Maximum ₹5,000 for procedural lapses\n   - Additional compensation for mental agony\n\n5. Monitoring:\n   - Monthly reporting to RBI\n   - Quarterly review by board\n   - Annual customer satisfaction survey",
+    "reference": "RBI/2024-25/234",
+    "effectiveDate": "2024-12-01",
+    "lastUpdated": "2025-04-01"
+  }
+]
