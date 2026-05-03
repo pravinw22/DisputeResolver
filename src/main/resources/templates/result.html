@@ -132,15 +132,15 @@
                                     <span class="badge bg-danger" th:if="${case.finalDecision == 'REJECTED'}">❌ REJECTED</span>
                                 </h4>
                             </div>
-                            <div class="col-md-6" th:if="${case.fraudSignals != null and case.fraudSignals.fraudScore != null}">
+                            <div class="col-md-6" th:if="${case.fraudSignals != null and case.fraudSignals.score != null}">
                                 <h6><strong>Confidence Score:</strong></h6>
                                 <h4>
-                                    <span class="badge" th:classappend="${case.fraudSignals.fraudScore >= 80 ? 'bg-danger' : (case.fraudSignals.fraudScore >= 50 ? 'bg-warning text-dark' : 'bg-success')}" 
-                                          th:text="${case.fraudSignals.fraudScore + '/100'}"></span>
-                                    <span class="badge bg-secondary" th:text="${case.fraudSignals.fraudScore >= 80 ? 'HIGH' : (case.fraudSignals.fraudScore >= 50 ? 'MEDIUM' : 'LOW')}"></span>
+                                    <span class="badge" th:classappend="${case.fraudSignals.score >= 80 ? 'bg-danger' : (case.fraudSignals.score >= 50 ? 'bg-warning text-dark' : 'bg-success')}" 
+                                          th:text="${case.fraudSignals.score + '/100'}"></span>
+                                    <span class="badge bg-secondary" th:text="${case.fraudSignals.score >= 80 ? 'HIGH' : (case.fraudSignals.score >= 50 ? 'MEDIUM' : 'LOW')}"></span>
                                 </h4>
                             </div>
-                            <div class="col-md-6" th:if="${case.fraudSignals == null or case.fraudSignals.fraudScore == null}">
+                            <div class="col-md-6" th:if="${case.fraudSignals == null or case.fraudSignals.score == null}">
                                 <h6><strong>Confidence Score:</strong></h6>
                                 <h4><span class="badge bg-secondary">N/A (REQUIRES_REVIEW)</span></h4>
                             </div>
@@ -157,7 +157,7 @@
                                 </p>
                             </div>
 
-                            <div class="col-md-12 mb-3" th:if="${case.fraudSignals != null and case.fraudSignals.fraudScore != null and case.fraudSignals.fraudScore >= 80}">
+                            <div class="col-md-12 mb-3" th:if="${case.fraudSignals != null and case.fraudSignals.score != null and case.fraudSignals.score >= 80}">
                                 <h6><strong>📊 Similar Past Cases:</strong></h6>
                                 <p class="mb-0 text-muted">
                                     • CASE-2025-001234: ₹23,000 foreign transaction → AUTO_APPROVED<br>
@@ -175,7 +175,7 @@
                                 </p>
                             </div>
 
-                            <div class="col-md-12" th:if="${case.fraudSignals != null and case.fraudSignals.fraudScore != null and case.fraudSignals.fraudScore >= 80}">
+                            <div class="col-md-12" th:if="${case.fraudSignals != null and case.fraudSignals.score != null and case.fraudSignals.score >= 80}">
                                 <h6><strong>🔍 Fraud Pattern Matched:</strong></h6>
                                 <p class="mb-0 text-muted">
                                     • FP-2025-042: Foreign Transaction Fraud (94.2% accuracy)
